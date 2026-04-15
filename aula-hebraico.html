@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>עברית · Prof. Gabriel Barbosa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #09090c;
+  --surface: #111115;
+  --card: #17171c;
+  --card2: #1d1d24;
+  --border: #28282f;
+  --gold: #c8a44a;
+  --gold-light: #e9cc7e;
+  --gold-dim: rgba(200,164,74,0.15);
+  --blue: #6590e8;
+  --teal: #45c4a0;
+  --rose: #e07070;
+  --violet: #a07ee0;
+  --text: #eeebe3;
+  --muted: #7a7a8e;
+  --faint: #3a3a45;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--faint);border-radius:3px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 28px;height:56px;background:rgba(9,9,12,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);display:flex;align-items:center;gap:10px;}
+.nav-logo small{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;border-left:1px solid var(--faint);padding-left:10px;}
+.nav-links{display:flex;gap:2px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:8px;transition:all 0.2s;white-space:nowrap;}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.05);}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px;}
+@media(max-width:820px){.nav-links{display:none;}.nav-toggle{display:block;}.nav-links.open{display:flex;flex-direction:column;position:fixed;top:56px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);padding:12px;gap:4px;z-index:199;}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 50% -5%,rgba(200,164,74,0.13) 0%,transparent 65%),radial-gradient(ellipse 40% 35% at 10% 90%,rgba(69,196,160,0.06) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 90% 80%,rgba(101,144,232,0.06) 0%,transparent 60%);}
+.hero-lines{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.hero-lines::before,.hero-lines::after{content:'';position:absolute;width:1px;height:100%;background:linear-gradient(180deg,transparent 0%,rgba(200,164,74,0.12) 40%,transparent 100%);}
+.hero-lines::before{left:20%;}.hero-lines::after{right:20%;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;background:rgba(200,164,74,0.08);border:1px solid rgba(200,164,74,0.25);border-radius:999px;padding:5px 18px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:36px;animation:fadeUp 0.7s ease both;}
+.hero-hebrew{font-family:'Cormorant Garamond',serif;font-size:clamp(88px,20vw,200px);font-weight:700;line-height:0.9;color:transparent;background:linear-gradient(160deg,var(--gold) 0%,var(--gold-light) 45%,#b8922a 100%);-webkit-background-clip:text;background-clip:text;animation:fadeUp 0.7s 0.1s ease both;letter-spacing:-6px;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,4vw,40px);font-weight:400;color:var(--text);margin-top:20px;animation:fadeUp 0.7s 0.2s ease both;}
+.hero-professor{margin-top:28px;display:flex;align-items:center;justify-content:center;gap:14px;animation:fadeUp 0.7s 0.3s ease both;}
+.prof-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#7a5a10);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#1a1200;border:2px solid rgba(200,164,74,0.4);flex-shrink:0;}
+.prof-info{text-align:left;}
+.prof-name{font-size:16px;font-weight:600;color:var(--text);}
+.prof-role{font-size:12px;color:var(--muted);margin-top:2px;letter-spacing:1px;text-transform:uppercase;}
+.hero-desc{font-size:15px;color:var(--muted);margin-top:28px;max-width:520px;line-height:1.8;animation:fadeUp 0.7s 0.4s ease both;}
+.hero-cta{margin-top:44px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.7s 0.5s ease both;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#1a1000;border:none;border-radius:10px;padding:13px 30px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(200,164,74,0.3);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:13px 30px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.modules-row{margin-top:64px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.7s 0.6s ease both;}
+.module-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.module-pill span{color:var(--gold);font-size:14px;}
+
+/* LAYOUT */
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+section{max-width:980px;margin:0 auto;padding:80px 24px;}
+.sec-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.15;margin-bottom:12px;}
+.sec-desc{font-size:15px;color:var(--muted);line-height:1.8;max-width:660px;margin-bottom:44px;}
+
+/* PROGRESS */
+.progress-bar-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:60px;}
+.progress-label{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.progress-track{height:5px;background:var(--border);border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:99px;width:0%;transition:width 1.4s ease;}
+.progress-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--muted);}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color 0.2s;}
+.tip-card:hover{border-color:rgba(200,164,74,0.35);}
+.tip-icon{font-size:28px;margin-bottom:14px;}
+.tip-t{font-size:14px;font-weight:600;margin-bottom:8px;}
+.tip-p{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* ALPHABET */
+.alphabet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;}
+.letter-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 10px 14px;text-align:center;cursor:pointer;transition:all 0.22s;position:relative;overflow:hidden;}
+.letter-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 28px rgba(200,164,74,0.14);}
+.letter-card.clicked{border-color:var(--teal);background:rgba(69,196,160,0.05);}
+.l-num{position:absolute;top:7px;right:9px;font-size:9px;color:var(--faint);}
+.l-heb{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold);display:block;line-height:1.1;}
+.l-name{font-size:12px;font-weight:600;color:var(--text);margin-top:6px;display:block;}
+.l-sound{font-size:10px;color:var(--muted);margin-top:3px;display:block;}
+
+/* PHRASES */
+.phrase-list{display:flex;flex-direction:column;gap:14px;}
+.phrase-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 26px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;transition:border-color 0.2s;}
+.phrase-card:hover{border-color:rgba(101,144,232,0.45);}
+.p-heb{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-light);direction:rtl;margin-bottom:5px;}
+.p-translit{font-size:13px;color:var(--blue);font-style:italic;margin-bottom:3px;}
+.p-meaning{font-size:13px;color:var(--muted);}
+.play-btn{width:44px;height:44px;border-radius:50%;background:rgba(101,144,232,0.1);border:1px solid rgba(101,144,232,0.28);color:var(--blue);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;font-size:16px;}
+.play-btn:hover{background:rgba(101,144,232,0.2);transform:scale(1.08);}
+
+/* NUMBERS */
+.numbers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
+.number-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 12px;text-align:center;transition:all 0.2s;}
+.number-card:hover{border-color:var(--teal);transform:translateY(-2px);}
+.n-val{font-size:30px;font-weight:700;color:var(--teal);}
+.n-heb{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);direction:rtl;margin:5px 0;}
+.n-pron{font-size:12px;color:var(--muted);font-style:italic;}
+
+/* ARTIGOS */
+.artigos-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:620px){.artigos-grid{grid-template-columns:1fr;}}
+.artigo-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px;}
+.artigo-box.definido{border-top:3px solid var(--gold);}
+.artigo-box.indefinido{border-top:3px solid var(--violet);}
+.artigo-title{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;}
+.artigo-box.definido .artigo-title{color:var(--gold);}
+.artigo-box.indefinido .artigo-title{color:var(--violet);}
+.artigo-table{width:100%;border-collapse:collapse;}
+.artigo-table td{padding:10px 10px;font-size:14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.artigo-table tr:last-child td{border-bottom:none;}
+.artigo-table td:first-child{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);direction:rtl;text-align:right;width:55px;}
+.artigo-table td:nth-child(2){color:var(--blue);font-style:italic;font-size:13px;}
+.artigo-table td:nth-child(3){color:var(--muted);font-size:13px;}
+.artigo-note{margin-top:16px;padding:12px 14px;background:rgba(200,164,74,0.06);border-radius:10px;font-size:13px;color:var(--muted);line-height:1.7;border-left:3px solid var(--gold);}
+
+/* RAIZ */
+.raiz-main{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:36px;margin-bottom:28px;text-align:center;}
+.raiz-hebrew-big{font-family:'Cormorant Garamond',serif;font-size:80px;color:var(--gold);direction:rtl;letter-spacing:8px;line-height:1;}
+.raiz-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:14px;}
+.raiz-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 18px;transition:border-color 0.2s;}
+.raiz-card:hover{border-color:var(--violet);}
+.raiz-word{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--violet);direction:rtl;margin-bottom:6px;}
+.raiz-translit{font-size:13px;color:var(--blue);font-style:italic;}
+.raiz-meaning{font-size:13px;color:var(--muted);margin-top:4px;}
+.raiz-explain{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-top:24px;font-size:14px;color:var(--muted);line-height:1.8;}
+.raiz-explain strong{color:var(--text);}
+
+/* AFIXOS */
+.afixo-tabs{display:flex;gap:8px;margin-bottom:28px;}
+.afixo-tab{padding:9px 22px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.afixo-tab.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+.afixo-panel{display:none;}
+.afixo-panel.active{display:block;}
+.afixo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.afixo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;transition:border-color 0.2s;}
+.afixo-card:hover{border-color:var(--teal);}
+.afixo-symbol{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--teal);direction:rtl;}
+.afixo-latin{font-size:13px;color:var(--blue);font-style:italic;margin-top:4px;}
+.afixo-meaning{font-size:13px;color:var(--muted);margin-top:3px;}
+.afixo-example{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);}
+.afixo-example span{color:var(--text);font-weight:500;}
+
+/* TERMINAÇÕES */
+.term-cat{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;font-weight:600;}
+.term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:32px;}
+.term-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:border-color 0.2s;}
+.term-card:hover{border-color:var(--rose);}
+.term-heb{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--rose);direction:rtl;}
+.term-name{font-size:12px;font-weight:600;color:var(--text);margin-top:5px;}
+.term-info{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;}
+
+/* EXEGESE */
+.exegese-verse{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;text-align:center;margin-bottom:36px;position:relative;overflow:hidden;}
+.exegese-verse::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(200,164,74,0.07),transparent);}
+.verse-ref{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.verse-text{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,4vw,34px);color:var(--text);direction:rtl;line-height:2;letter-spacing:2px;}
+.verse-translit{font-size:14px;color:var(--blue);font-style:italic;margin-top:16px;line-height:1.8;}
+.verse-translation{margin-top:14px;font-size:14px;color:var(--muted);font-style:italic;}
+
+.word-analysis{display:flex;flex-direction:column;gap:16px;}
+.word-row{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 26px;display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:16px;align-items:start;transition:border-color 0.2s;}
+.word-row:hover{border-color:rgba(200,164,74,0.3);}
+@media(max-width:700px){.word-row{grid-template-columns:1fr 1fr;}}
+.w-heb{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--gold);direction:rtl;text-align:right;}
+.w-col-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:5px;}
+.w-val{font-size:14px;color:var(--text);}
+.w-val.blue{color:var(--blue);font-style:italic;}
+.w-val.green{color:var(--teal);}
+.w-note{grid-column:1/-1;font-size:13px;color:var(--muted);background:rgba(200,164,74,0.05);border-radius:10px;padding:12px 14px;border-left:3px solid var(--gold);line-height:1.7;margin-top:4px;}
+.exegese-summary{background:linear-gradient(135deg,rgba(200,164,74,0.08),rgba(101,144,232,0.06));border:1px solid rgba(200,164,74,0.25);border-radius:16px;padding:28px 30px;margin-top:32px;}
+.exegese-summary h4{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-light);margin-bottom:14px;}
+.exegese-summary p{font-size:14px;color:var(--muted);line-height:1.9;}
+.exegese-summary strong{color:var(--text);}
+
+/* QUIZ */
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:44px 36px;text-align:center;}
+.quiz-letter{font-family:'Cormorant Garamond',serif;font-size:80px;color:var(--gold);direction:rtl;margin:10px 0 24px;}
+.quiz-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:380px;margin:0 auto;}
+.quiz-opt{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px;font-size:14px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;color:var(--text);}
+.quiz-opt:hover{border-color:var(--gold);background:var(--gold-dim);}
+.quiz-opt.correct{border-color:var(--teal);background:rgba(69,196,160,0.1);color:var(--teal);}
+.quiz-opt.wrong{border-color:var(--rose);background:rgba(224,112,112,0.1);color:var(--rose);}
+.quiz-result{margin-top:18px;font-size:15px;min-height:22px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+footer{text-align:center;padding:56px 24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
+footer strong{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    עברית
+    <small>Prof. Gabriel Barbosa</small>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#alfabeto">Alfabeto</a></li>
+    <li><a href="#frases">Frases</a></li>
+    <li><a href="#numeros">Números</a></li>
+    <li><a href="#artigos">Artigos</a></li>
+    <li><a href="#raiz">Raiz</a></li>
+    <li><a href="#afixos">Afixos</a></li>
+    <li><a href="#terminacoes">Terminações</a></li>
+    <li><a href="#exegese">Exegese</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-eyebrow">✦ Curso de Hebraico Bíblico · Lição 1</div>
+  <div class="hero-hebrew">עברית</div>
+  <h1 class="hero-title">Hebraico Bíblico</h1>
+  <div class="hero-professor">
+    <div class="prof-avatar">G</div>
+    <div class="prof-info">
+      <div class="prof-name">Prof. Gabriel Barbosa</div>
+      <div class="prof-role">Instructor de Hebraico Bíblico</div>
+    </div>
+  </div>
+  <p class="hero-desc">Uma jornada pela língua sagrada das Escrituras — do alfabeto à exegese textual. Aprenda a ler, compreender e analisar o hebraico bíblico com profundidade.</p>
+  <div class="hero-cta">
+    <button class="btn-gold" onclick="document.getElementById('alfabeto').scrollIntoView({behavior:'smooth'})">Começar aula</button>
+    <button class="btn-outline" onclick="document.getElementById('exegese').scrollIntoView({behavior:'smooth'})">Ver Exegese</button>
+  </div>
+  <div class="modules-row">
+    <div class="module-pill"><span>א</span> Alfabeto</div>
+    <div class="module-pill"><span>הַ</span> Artigos</div>
+    <div class="module-pill"><span>שׁרשׁ</span> Raiz</div>
+    <div class="module-pill"><span>בְּ</span> Prefixos</div>
+    <div class="module-pill"><span>ִים</span> Terminações</div>
+    <div class="module-pill"><span>📖</span> Exegese</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- INTRO -->
+<section>
+  <div class="progress-bar-wrap reveal">
+    <div class="progress-label">Progresso na lição de hoje</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-meta"><span id="progressText">0 de 22 letras exploradas</span><span id="progressPct">0%</span></div>
+  </div>
+  <div class="sec-label">Antes de começar</div>
+  <h2 class="sec-title">O que você precisa saber</h2>
+  <div class="tips-grid">
+    <div class="tip-card reveal"><div class="tip-icon">📖</div><div class="tip-t">Da direita para a esquerda</div><div class="tip-p">O hebraico é escrito e lido da direita para a esquerda — o oposto do português. Isso vale para letras, palavras e livros inteiros.</div></div>
+    <div class="tip-card reveal"><div class="tip-icon">🔤</div><div class="tip-t">22 consoantes + vogais (nikud)</div><div class="tip-p">O alef-bet tem 22 letras, todas consoantes. As vogais são indicadas por pontos e traços chamados <em>nikud</em>, usados nos textos bíblicos.</div></div>
+    <div class="tip-card reveal"><div class="tip-icon">🌱</div><div class="tip-t">Raiz trilíteral</div><div class="tip-p">A maioria das palavras hebraicas deriva de uma raiz de 3 consoantes (שׁרשׁ). Dominar as raízes é a chave para expandir vocabulário rapidamente.</div></div>
+    <div class="tip-card reveal"><div class="tip-icon">🕍</div><div class="tip-t">Hebraico Bíblico vs Moderno</div><div class="tip-p">O hebraico bíblico possui formas verbais e vocabulário distintos do moderno. Neste curso, o foco é o hebraico das Escrituras.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 1 — ALFABETO -->
+<section id="alfabeto">
+  <div class="sec-label">Módulo 1</div>
+  <h2 class="sec-title">O Alfabeto Hebraico</h2>
+  <p class="sec-desc">Clique em cada letra para ouvir seu nome e marcar como explorada. As 22 letras são todas consoantes.</p>
+  <div class="alphabet-grid" id="alphabetGrid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 2 — FRASES -->
+<section id="frases">
+  <div class="sec-label">Módulo 2</div>
+  <h2 class="sec-title reveal">Frases Essenciais</h2>
+  <p class="sec-desc reveal">Expressões do cotidiano e saudações. Pressione ▶ para ouvir a pronúncia.</p>
+  <div class="phrase-list" id="phraseList"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 3 — NÚMEROS -->
+<section id="numeros">
+  <div class="sec-label">Módulo 3</div>
+  <h2 class="sec-title reveal">Números de 1 a 10</h2>
+  <div class="numbers-grid" id="numbersGrid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 4 — ARTIGOS -->
+<section id="artigos">
+  <div class="sec-label">Módulo 4</div>
+  <h2 class="sec-title reveal">Artigos Definidos e Indefinidos</h2>
+  <p class="sec-desc reveal">O hebraico bíblico não possui artigo indefinido. O artigo definido é sempre o prefixo <strong style="color:var(--gold)">הַ</strong> (ha), com variações fonéticas conforme a letra seguinte.</p>
+  <div class="artigos-grid reveal">
+    <div class="artigo-box definido">
+      <div class="artigo-title">✦ Artigo Definido — הַ (ha)</div>
+      <table class="artigo-table">
+        <tr><td>הַמֶּלֶךְ</td><td>ha-mélekh</td><td>o rei</td></tr>
+        <tr><td>הָאָרֶץ</td><td>ha-áretz</td><td>a terra</td></tr>
+        <tr><td>הַיּוֹם</td><td>ha-yom</td><td>o dia</td></tr>
+        <tr><td>הָאִישׁ</td><td>ha-ish</td><td>o homem</td></tr>
+        <tr><td>הַבַּיִת</td><td>ha-báyit</td><td>a casa</td></tr>
+        <tr><td>הַשָּׁמַיִם</td><td>ha-shamáyim</td><td>os céus</td></tr>
+      </table>
+      <div class="artigo-note">⚑ O prefixo הַ se torna הָ (com qametz) quando a palavra começa com as guturais א, ע, ה, ח ou ר.</div>
+    </div>
+    <div class="artigo-box indefinido">
+      <div class="artigo-title">◇ Artigo Indefinido — ausente</div>
+      <table class="artigo-table">
+        <tr><td>מֶלֶךְ</td><td>mélekh</td><td>um rei</td></tr>
+        <tr><td>אָרֶץ</td><td>áretz</td><td>uma terra</td></tr>
+        <tr><td>יוֹם</td><td>yom</td><td>um dia</td></tr>
+        <tr><td>אִישׁ</td><td>ish</td><td>um homem</td></tr>
+        <tr><td>בַּיִת</td><td>báyit</td><td>uma casa</td></tr>
+        <tr><td>נָבִיא</td><td>naví</td><td>um profeta</td></tr>
+      </table>
+      <div class="artigo-note" style="border-left-color:var(--violet)">⚑ Um substantivo sem o prefixo הַ é automaticamente indefinido. O contexto determina se é "um" ou a ideia geral.</div>
+    </div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:24px;" class="reveal">
+    <div class="sec-label" style="margin-bottom:14px;">Comparativo Visual</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;align-items:center;">
+      <div style="text-align:center;padding:16px;background:var(--card2);border-radius:12px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--muted);direction:rtl;">מֶלֶךְ</div>
+        <div style="font-size:13px;color:var(--blue);font-style:italic;margin:6px 0;">mélekh</div>
+        <div style="font-size:13px;color:var(--muted);">um rei (indefinido)</div>
+      </div>
+      <div style="text-align:center;font-size:26px;color:var(--gold);">→</div>
+      <div style="text-align:center;padding:16px;background:var(--card2);border-radius:12px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold-light);direction:rtl;">הַמֶּלֶךְ</div>
+        <div style="font-size:13px;color:var(--blue);font-style:italic;margin:6px 0;">ha-mélekh</div>
+        <div style="font-size:13px;color:var(--muted);">o rei (definido)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 5 — RAIZ -->
+<section id="raiz">
+  <div class="sec-label">Módulo 5</div>
+  <h2 class="sec-title reveal">A Raiz Trilíteral (שׁרשׁ — Shoresh)</h2>
+  <p class="sec-desc reveal">Em hebraico, quase toda palavra deriva de uma raiz de <strong>3 consoantes</strong>. Reconhecer a raiz permite deduzir o significado de dezenas de palavras ao mesmo tempo.</p>
+  <div class="raiz-main reveal">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Exemplo de raiz</div>
+    <div class="raiz-hebrew-big">כ–ת–ב</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px;letter-spacing:2px;text-transform:uppercase;">K – T – B</div>
+    <div style="font-size:14px;color:var(--text);margin-top:8px;">Ideia central: <strong style="color:var(--gold)">escrever / inscrever</strong></div>
+  </div>
+  <div class="raiz-cards reveal">
+    <div class="raiz-card"><div class="raiz-word">כָּתַב</div><div class="raiz-translit">katav</div><div class="raiz-meaning">ele escreveu (Qal perf.)</div></div>
+    <div class="raiz-card"><div class="raiz-word">כְּתָב</div><div class="raiz-translit">ketav</div><div class="raiz-meaning">escrita, documento</div></div>
+    <div class="raiz-card"><div class="raiz-word">כָּתוּב</div><div class="raiz-translit">katuv</div><div class="raiz-meaning">escrito (particípio pass.)</div></div>
+    <div class="raiz-card"><div class="raiz-word">מִכְתָּב</div><div class="raiz-translit">mikhtav</div><div class="raiz-meaning">carta, epístola</div></div>
+    <div class="raiz-card"><div class="raiz-word">כְּתֻבָּה</div><div class="raiz-translit">ketubá</div><div class="raiz-meaning">contrato matrimonial</div></div>
+    <div class="raiz-card"><div class="raiz-word">כַּתָּב</div><div class="raiz-translit">katáv</div><div class="raiz-meaning">escriba, escritor</div></div>
+  </div>
+  <div class="raiz-explain reveal">
+    <strong>Como identificar a raiz?</strong> Remova prefixos, sufixos e vogais — o que restam são as 3 consoantes da raiz. Em <strong style="color:var(--gold)">מִכְתָּב</strong>, o prefixo מִ é instrumental. As consoantes כ-ת-ב formam a raiz "escrever".<br><br>
+    <strong>Outra raiz importante:</strong> <strong style="color:var(--violet)">ד-ב-ר</strong> (D-B-R = falar/palavra) → דָּבָר (davar = palavra), דִּבֵּר (dibér = ele falou), מִדְבָּר (midbar = deserto — "lugar da fala").
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 6 — PREFIXOS E SUFIXOS -->
+<section id="afixos">
+  <div class="sec-label">Módulo 6</div>
+  <h2 class="sec-title reveal">Prefixos e Sufixos</h2>
+  <p class="sec-desc reveal">O hebraico é aglutinante: preposições, artigos, conjunções e pronomes possessivos são frequentemente anexados diretamente à palavra como prefixos ou sufixos.</p>
+  <div class="afixo-tabs reveal">
+    <button class="afixo-tab active" onclick="switchTab('prefixos',this)">Prefixos</button>
+    <button class="afixo-tab" onclick="switchTab('sufixos',this)">Sufixos Pronominais</button>
+  </div>
+  <div class="afixo-panel active" id="panel-prefixos">
+    <div class="afixo-grid">
+      <div class="afixo-card"><div class="afixo-symbol">בְּ / בַּ</div><div class="afixo-latin">be / ba</div><div class="afixo-meaning">em, por, com</div><div class="afixo-example">בְּרֵאשִׁית → <span>no princípio</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">לְ / לַ</div><div class="afixo-latin">le / la</div><div class="afixo-meaning">para, a, pertencente a</div><div class="afixo-example">לְדָוִד → <span>para/de Davi</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">כְּ / כַּ</div><div class="afixo-latin">ke / ka</div><div class="afixo-meaning">como, semelhante a</div><div class="afixo-example">כַּשֶּׁמֶשׁ → <span>como o sol</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">מִ / מֵ</div><div class="afixo-latin">mi / me</div><div class="afixo-meaning">de, desde, mais que</div><div class="afixo-example">מִמִּצְרַיִם → <span>do Egito</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">וְ / וַ</div><div class="afixo-latin">ve / va</div><div class="afixo-meaning">e, mas (conjunção)</div><div class="afixo-example">וַיֹּאמֶר → <span>e ele disse</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">הַ</div><div class="afixo-latin">ha</div><div class="afixo-meaning">o, a (artigo definido)</div><div class="afixo-example">הַמֶּלֶךְ → <span>o rei</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">שֶׁ</div><div class="afixo-latin">she</div><div class="afixo-meaning">que, o qual (relativo)</div><div class="afixo-example">שֶׁאָהַב → <span>que amou</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">הֲ</div><div class="afixo-latin">ha (interrog.)</div><div class="afixo-meaning">partícula interrogativa</div><div class="afixo-example">הֲאַתָּה → <span>és tu?</span></div></div>
+    </div>
+  </div>
+  <div class="afixo-panel" id="panel-sufixos">
+    <div class="afixo-grid">
+      <div class="afixo-card"><div class="afixo-symbol">ִי–</div><div class="afixo-latin">-í</div><div class="afixo-meaning">meu / minha (1ª sing.)</div><div class="afixo-example">סוּסִי → <span>meu cavalo</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">ְךָ–</div><div class="afixo-latin">-khá</div><div class="afixo-meaning">teu (2ª sing. masc.)</div><div class="afixo-example">בֵּיתְךָ → <span>tua casa</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">ֵךְ–</div><div class="afixo-latin">-éikh</div><div class="afixo-meaning">tua (2ª sing. fem.)</div><div class="afixo-example">קוֹלֵךְ → <span>tua voz</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">וֹ–</div><div class="afixo-latin">-o</div><div class="afixo-meaning">seu (3ª sing. masc.)</div><div class="afixo-example">עַמּוֹ → <span>o povo dele</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">ָהּ–</div><div class="afixo-latin">-ah</div><div class="afixo-meaning">sua (3ª sing. fem.)</div><div class="afixo-example">יָדָהּ → <span>a mão dela</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">נוּ–</div><div class="afixo-latin">-nu</div><div class="afixo-meaning">nosso (1ª plural)</div><div class="afixo-example">אֱלֹהֵינוּ → <span>nosso Deus</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">כֶם–</div><div class="afixo-latin">-khem</div><div class="afixo-meaning">vosso (2ª pl. masc.)</div><div class="afixo-example">אַרְצְכֶם → <span>a terra de vós</span></div></div>
+      <div class="afixo-card"><div class="afixo-symbol">ָם–</div><div class="afixo-latin">-am</div><div class="afixo-meaning">deles (3ª pl. masc.)</div><div class="afixo-example">בְּנֵיהֶם → <span>filhos deles</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 7 — TERMINAÇÕES -->
+<section id="terminacoes">
+  <div class="sec-label">Módulo 7</div>
+  <h2 class="sec-title reveal">Terminações Nominais e Verbais</h2>
+  <p class="sec-desc reveal">As terminações indicam gênero, número e função gramatical dos substantivos, adjetivos e verbos.</p>
+
+  <div class="reveal">
+    <div class="term-cat">Terminações de Substantivos e Adjetivos</div>
+    <div class="term-grid">
+      <div class="term-card"><div class="term-heb">–</div><div class="term-name">Masc. Singular</div><div class="term-info">Sem sufixo. Ex: מֶלֶךְ (rei)</div></div>
+      <div class="term-card"><div class="term-heb">ָה–</div><div class="term-name">Fem. Singular</div><div class="term-info">Sufixo -ah. Ex: מַלְכָּה (rainha)</div></div>
+      <div class="term-card"><div class="term-heb">ִים–</div><div class="term-name">Masc. Plural</div><div class="term-info">Sufixo -im. Ex: מְלָכִים (reis)</div></div>
+      <div class="term-card"><div class="term-heb">וֹת–</div><div class="term-name">Fem. Plural</div><div class="term-info">Sufixo -ot. Ex: מַלְכּוֹת (rainhas)</div></div>
+      <div class="term-card"><div class="term-heb">ַיִם–</div><div class="term-name">Dual</div><div class="term-info">Pares naturais. Ex: יָדַיִם (as duas mãos)</div></div>
+      <div class="term-card"><div class="term-heb">ִית–</div><div class="term-name">Fem. variante</div><div class="term-info">Ex: בְּרֵאשִׁית (no princípio)</div></div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="term-cat">Terminações Verbais — Perfeito Qal</div>
+    <div class="term-grid">
+      <div class="term-card"><div class="term-heb">–</div><div class="term-name">3ª Masc. Sing.</div><div class="term-info">כָּתַב (ele escreveu)</div></div>
+      <div class="term-card"><div class="term-heb">ָה–</div><div class="term-name">3ª Fem. Sing.</div><div class="term-info">כָּתְבָה (ela escreveu)</div></div>
+      <div class="term-card"><div class="term-heb">וּ–</div><div class="term-name">3ª Masc. Plural</div><div class="term-info">כָּתְבוּ (eles escreveram)</div></div>
+      <div class="term-card"><div class="term-heb">תָּ–</div><div class="term-name">2ª Masc. Sing.</div><div class="term-info">כָּתַבְתָּ (tu escreveste)</div></div>
+      <div class="term-card"><div class="term-heb">תִּי–</div><div class="term-name">1ª Sing.</div><div class="term-info">כָּתַבְתִּי (eu escrevi)</div></div>
+      <div class="term-card"><div class="term-heb">נוּ–</div><div class="term-name">1ª Plural</div><div class="term-info">כָּתַבְנוּ (nós escrevemos)</div></div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="term-cat">Estado Construto (סְמִיכוּת — Semikhut)</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 28px;">
+      <p style="font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:18px;">O <strong style="color:var(--text)">estado construto</strong> expressa posse ou relação entre dois substantivos — equivale ao "de" do português. O primeiro substantivo tem sua terminação modificada.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+        <div style="background:var(--card2);border-radius:12px;padding:16px;"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);direction:rtl;margin-bottom:6px;">דְּבַר יְהוָה</div><div style="font-size:13px;color:var(--blue);font-style:italic;margin-bottom:3px;">devar YHWH</div><div style="font-size:13px;color:var(--muted);">a palavra do SENHOR</div></div>
+        <div style="background:var(--card2);border-radius:12px;padding:16px;"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);direction:rtl;margin-bottom:6px;">בֵּית לֶחֶם</div><div style="font-size:13px;color:var(--blue);font-style:italic;margin-bottom:3px;">beit léchem</div><div style="font-size:13px;color:var(--muted);">casa do pão = Belém</div></div>
+        <div style="background:var(--card2);border-radius:12px;padding:16px;"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);direction:rtl;margin-bottom:6px;">בֶּן–אָדָם</div><div style="font-size:13px;color:var(--blue);font-style:italic;margin-bottom:3px;">ben-adam</div><div style="font-size:13px;color:var(--muted);">filho do homem</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MÓDULO 8 — EXEGESE -->
+<section id="exegese">
+  <div class="sec-label">Módulo 8</div>
+  <h2 class="sec-title reveal">Exegese Textual — Gênesis 1:1</h2>
+  <p class="sec-desc reveal">Análise palavra por palavra do verso inaugural da Bíblia Hebraica. Cada palavra é examinada quanto à raiz, morfologia e significado teológico.</p>
+
+  <div class="exegese-verse reveal">
+    <div class="verse-ref">בְּרֵאשִׁית · Gênesis 1:1 · Texto Massorético</div>
+    <div class="verse-text">בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ׃</div>
+    <div class="verse-translit">Bereshít bará Elohím et ha-shamáyim ve-et ha-áretz.</div>
+    <div class="verse-translation">"No princípio, criou Deus os céus e a terra." — (Gn 1:1, trad. literal)</div>
+  </div>
+
+  <div class="word-analysis">
+
+    <div class="word-row reveal">
+      <div class="w-heb">בְּרֵאשִׁית</div>
+      <div><div class="w-col-title">Transliteração</div><div class="w-val blue">Bereshít</div></div>
+      <div><div class="w-col-title">Morfologia</div><div class="w-val green">Subst. fem. + prefixo בְּ</div></div>
+      <div><div class="w-col-title">Tradução</div><div class="w-val">No princípio</div></div>
+      <div class="w-note"><strong>Prefixo בְּ</strong> = "em/no". Raiz <strong style="color:var(--gold)">ר-א-שׁ</strong> (cabeça, topo, início). A ausência do artigo definido gerou debate rabínico: seria um início absoluto ou relativo? A maioria dos comentadores entende como o início absoluto da criação — <em>creatio ex nihilo</em>.</div>
+    </div>
+
+    <div class="word-row reveal">
+      <div class="w-heb">בָּרָא</div>
+      <div><div class="w-col-title">Transliteração</div><div class="w-val blue">Bará</div></div>
+      <div><div class="w-col-title">Morfologia</div><div class="w-val green">Verbo Qal Perf. · 3ª masc. sing.</div></div>
+      <div><div class="w-col-title">Tradução</div><div class="w-val">ele criou</div></div>
+      <div class="w-note">Raiz <strong style="color:var(--gold)">ב-ר-א</strong>. Este verbo é usado na Bíblia <em>exclusivamente</em> com Deus como sujeito — nunca com seres humanos. Isso distingue o ato criador divino de qualquer fabricação humana. A tradição judaica e cristã vê aqui a criação do nada.</div>
+    </div>
+
+    <div class="word-row reveal">
+      <div class="w-heb">אֱלֹהִים</div>
+      <div><div class="w-col-title">Transliteração</div><div class="w-val blue">Elohím</div></div>
+      <div><div class="w-col-title">Morfologia</div><div class="w-val green">Subst. masc. plural · sujeito</div></div>
+      <div><div class="w-col-title">Tradução</div><div class="w-val">Deus</div></div>
+      <div class="w-note">Terminação <strong style="color:var(--gold)">ִים–</strong> é plural masculino, mas o verbo בָּרָא está no singular! Este "plural de majestade" (pluralis maiestatis) é debatido: o judaísmo o interpreta como exaltação e plenitude; a tradição cristã frequentemente o relaciona à Trindade. Raiz אֵל (força, poder).</div>
+    </div>
+
+    <div class="word-row reveal">
+      <div class="w-heb">אֵת</div>
+      <div><div class="w-col-title">Transliteração</div><div class="w-val blue">Et</div></div>
+      <div><div class="w-col-title">Morfologia</div><div class="w-val green">Marcador de objeto direto</div></div>
+      <div><div class="w-col-title">Tradução</div><div class="w-val">[sem equiv. em pt.]</div></div>
+      <div class="w-note">A partícula <strong style="color:var(--gold)">אֵת</strong> não tem tradução ao português. Ela marca o <em>objeto direto definido</em> da frase. Aparece duas vezes: antes de "céus" e antes de "terra", indicando que ambos são objetos diretos do verbo "criar".</div>
+    </div>
+
+    <div class="word-row reveal">
+      <div class="w-heb">הַשָּׁמַיִם</div>
+      <div><div class="w-col-title">Transliteração</div><div class="w-val blue">Ha-shamáyim</div></div>
+      <div><div class="w-col-title">Morfologia</div><div class="w-val green">Subst. masc. dual/pl. + artigo הַ</div></div>
+      <div><div class="w-col-title">Tradução</div><div class="w-val">os céus</div></div>
+      <div class="w-note"><strong style="color:var(--gold)">שָּׁמַיִם</strong> aparece sempre no plural/dual em hebraico bíblico — nunca no singular. Indica a totalidade do espaço: firmamento, céu atmosférico e celestial. A raiz possivelmente vem de שָׁם (lá, acima) ou שָׁמֵם (altura).</div>
+    </div>
+
+    <div class="word-row reveal">
+      <div class="w-heb">וְאֵת הָאָרֶץ</div>
+      <div><div class="w-col-title">Transliteração</div><div class="w-val blue">Ve-et ha-áretz</div></div>
+      <div><div class="w-col-title">Morfologia</div><div class="w-val green">וְ + אֵת + subst. fem. + הָ</div></div>
+      <div><div class="w-col-title">Tradução</div><div class="w-val">e a terra</div></div>
+      <div class="w-note"><strong style="color:var(--gold)">וְ</strong> = conjunção "e". O artigo הַ se torna <strong>הָ</strong> antes da gutural א. אָרֶץ abrange terra firme, solo, território e o planeta. A dupla "céus e terra" é um <em>merismo</em> hebraico — figura de linguagem que indica a totalidade do cosmos por meio de dois opostos.</div>
+    </div>
+
+  </div>
+
+  <div class="exegese-summary reveal">
+    <h4>🔍 Síntese Exegética — Bereshít 1:1</h4>
+    <p>
+      Este versículo inaugural é uma declaração teológica densa. A <strong>ausência do artigo</strong> em "princípio" coloca a criação fora do tempo ordinário; o verbo <strong>בָּרָא</strong> — reservado exclusivamente à ação divina — distingue a criação de Deus de qualquer fabricação humana; o "plural de majestade" <strong>אֱלֹהִים</strong> afirma plenitude e soberania absolutas; e a expressão <strong>"céus e terra"</strong> como merismo declara que <em>tudo o que existe</em> tem origem neste ato criador. Em seis palavras hebraicas, a Torá inaugura toda uma cosmovisão.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="sec-label">Praticar</div>
+  <h2 class="sec-title reveal">Quiz Rápido</h2>
+  <div class="quiz-box reveal">
+    <div style="font-size:13px;color:var(--muted);">Qual é o nome desta letra?</div>
+    <div class="quiz-letter" id="quizLetter">א</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">Escolha a resposta correta:</div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-result" id="quizResult"></div>
+    <button class="btn-gold" style="margin-top:28px;" onclick="nextQuestion()">Próxima ▸</button>
+  </div>
+</section>
+
+<footer>
+  Aula elaborada por <strong>Prof. Gabriel Barbosa</strong> · עברית בִּיבְלִית · Hebraico Bíblico para iniciantes
+</footer>
+
+<script>
+const alphabet=[
+  {letter:'א',name:'Alef',sound:'Silencioso / A',number:'1'},
+  {letter:'ב',name:'Bet',sound:'B / V',number:'2'},
+  {letter:'ג',name:'Guimel',sound:'G',number:'3'},
+  {letter:'ד',name:'Dalet',sound:'D',number:'4'},
+  {letter:'ה',name:'He',sound:'H',number:'5'},
+  {letter:'ו',name:'Vav',sound:'V / O / U',number:'6'},
+  {letter:'ז',name:'Zayin',sound:'Z',number:'7'},
+  {letter:'ח',name:'Chet',sound:'CH gutural',number:'8'},
+  {letter:'ט',name:'Tet',sound:'T',number:'9'},
+  {letter:'י',name:'Yod',sound:'Y',number:'10'},
+  {letter:'כ',name:'Kaf',sound:'K / KH',number:'20'},
+  {letter:'ל',name:'Lamed',sound:'L',number:'30'},
+  {letter:'מ',name:'Mem',sound:'M',number:'40'},
+  {letter:'נ',name:'Nun',sound:'N',number:'50'},
+  {letter:'ס',name:'Samech',sound:'S',number:'60'},
+  {letter:'ע',name:'Ayin',sound:'Silencioso / A',number:'70'},
+  {letter:'פ',name:'Pe',sound:'P / F',number:'80'},
+  {letter:'צ',name:'Tzade',sound:'TZ',number:'90'},
+  {letter:'ק',name:'Kuf',sound:'K',number:'100'},
+  {letter:'ר',name:'Resh',sound:'R',number:'200'},
+  {letter:'ש',name:'Shin',sound:'SH / S',number:'300'},
+  {letter:'ת',name:'Tav',sound:'T',number:'400'},
+];
+const phrases=[
+  {hebrew:'שָׁלוֹם',translit:'Shalom',meaning:'Olá / Paz / Tchau'},
+  {hebrew:'תּוֹדָה',translit:'Todá',meaning:'Obrigado(a)'},
+  {hebrew:'בְּבַקָּשָׁה',translit:'Bevakashá',meaning:'Por favor / De nada'},
+  {hebrew:'כֵּן',translit:'Ken',meaning:'Sim'},
+  {hebrew:'לֹא',translit:'Lo',meaning:'Não'},
+  {hebrew:'מַה שְּׁלוֹמְךָ?',translit:'Má shlomkhá?',meaning:'Como você está? (masc.)'},
+  {hebrew:'אֲנִי בְּסֵדֶר',translit:'Aní beseder',meaning:'Estou bem'},
+  {hebrew:'שְׁמִי...',translit:'Shmí...',meaning:'Meu nome é...'},
+  {hebrew:'בְּרוּכִים הַבָּאִים',translit:'Bruchím habáim',meaning:'Bem-vindos'},
+  {hebrew:'לְהִתְרָאוֹת',translit:'Lehitraót',meaning:'Até logo'},
+];
+const numbers=[
+  {n:1,heb:'אֶחָד',pron:'Echad'},{n:2,heb:'שְׁנַיִם',pron:'Shnaim'},
+  {n:3,heb:'שָׁלוֹשׁ',pron:'Shalósh'},{n:4,heb:'אַרְבַּע',pron:'Arba'},
+  {n:5,heb:'חָמֵשׁ',pron:'Chamésh'},{n:6,heb:'שֵׁשׁ',pron:'Shesh'},
+  {n:7,heb:'שֶׁבַע',pron:'Sheva'},{n:8,heb:'שְׁמוֹנֶה',pron:'Shmoné'},
+  {n:9,heb:'תֵּשַׁע',pron:'Tésha'},{n:10,heb:'עֶשֶׂר',pron:'Éser'},
+];
+
+let explored=new Set();
+const grid=document.getElementById('alphabetGrid');
+alphabet.forEach((l,i)=>{
+  const c=document.createElement('div');c.className='letter-card reveal';
+  c.innerHTML=`<span class="l-num">${l.number}</span><span class="l-heb">${l.letter}</span><span class="l-name">${l.name}</span><span class="l-sound">${l.sound}</span>`;
+  c.onclick=()=>{explored.add(i);c.classList.add('clicked');updateProgress();speak(l.name);};
+  grid.appendChild(c);
+});
+
+const pl=document.getElementById('phraseList');
+phrases.forEach(p=>{
+  const c=document.createElement('div');c.className='phrase-card reveal';
+  c.innerHTML=`<div><div class="p-heb">${p.hebrew}</div><div class="p-translit">${p.translit}</div><div class="p-meaning">${p.meaning}</div></div><button class="play-btn" onclick="playPhrase(this,'${p.translit}')">▶</button>`;
+  pl.appendChild(c);
+});
+
+const ng=document.getElementById('numbersGrid');
+numbers.forEach(n=>{
+  const c=document.createElement('div');c.className='number-card reveal';
+  c.innerHTML=`<div class="n-val">${n.n}</div><div class="n-heb">${n.heb}</div><div class="n-pron">${n.pron}</div>`;
+  ng.appendChild(c);
+});
+
+function updateProgress(){
+  const pct=Math.round(explored.size/alphabet.length*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressText').textContent=`${explored.size} de ${alphabet.length} letras exploradas`;
+  document.getElementById('progressPct').textContent=pct+'%';
+}
+function speak(t){if('speechSynthesis'in window){const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';speechSynthesis.speak(u);}}
+function playPhrase(btn,t){
+  btn.textContent='⏸';btn.style.background='rgba(101,144,232,0.25)';
+  if('speechSynthesis'in window){const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.onend=()=>{btn.textContent='▶';btn.style.background='';};speechSynthesis.speak(u);}
+  else{setTimeout(()=>{btn.textContent='▶';btn.style.background='';},1500);}
+}
+function switchTab(id,el){
+  document.querySelectorAll('.afixo-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.afixo-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+}
+let qi=0;
+const qo=[...alphabet].sort(()=>Math.random()-0.5);
+function buildQuiz(){
+  const cor=qo[qi%qo.length];
+  document.getElementById('quizLetter').textContent=cor.letter;
+  document.getElementById('quizResult').textContent='';
+  const wrong=alphabet.filter(l=>l.name!==cor.name).sort(()=>Math.random()-0.5).slice(0,3);
+  const opts=[...wrong,cor].sort(()=>Math.random()-0.5);
+  const cnt=document.getElementById('quizOptions');cnt.innerHTML='';
+  opts.forEach(o=>{
+    const b=document.createElement('button');b.className='quiz-opt';b.textContent=o.name;
+    b.onclick=()=>checkAnswer(b,o.name,cor.name);cnt.appendChild(b);
+  });
+}
+function checkAnswer(btn,chosen,correct){
+  document.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+  if(chosen===correct){btn.classList.add('correct');document.getElementById('quizResult').innerHTML='<span style="color:var(--teal)">✓ Correto!</span>';}
+  else{btn.classList.add('wrong');document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});document.getElementById('quizResult').innerHTML=`<span style="color:var(--rose)">✗ Era: ${correct}</span>`;}
+}
+function nextQuestion(){qi++;buildQuiz();}
+buildQuiz();
+
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
+setTimeout(()=>{document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));},200);
+</script>
+</body>
+</html>
