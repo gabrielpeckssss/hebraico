@@ -127,14 +127,110 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 ::-webkit-scrollbar-thumb{background:var(--faint);border-radius:3px;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 28px;height:56px;background:rgba(9,9,12,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between;}
+nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:0 20px;height:56px;background:rgba(9,9,12,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);display:flex;align-items:center;gap:10px;}
 .nav-logo small{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;border-left:1px solid var(--faint);padding-left:10px;}
-.nav-links{display:flex;gap:2px;list-style:none;}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;padding:5px 10px;border-radius:8px;transition:all 0.2s;white-space:nowrap;cursor:pointer;}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.05);}
-.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px;}
-@media(max-width:820px){.nav-links{display:none;}}
+.nav-links{display:none;}
+.nav-hamburger{background:none;border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:18px;cursor:pointer;padding:6px 10px;transition:all 0.2s;display:flex;align-items:center;gap:8px;}
+.nav-hamburger:hover{border-color:var(--gold);color:var(--gold);}
+.nav-hamburger span{font-size:12px;letter-spacing:1px;color:var(--muted);}
+
+/* SIDEBAR */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:400;opacity:0;pointer-events:none;transition:opacity 0.3s ease;backdrop-filter:blur(4px);}
+.sidebar-overlay.open{opacity:1;pointer-events:all;}
+.sidebar{position:fixed;top:0;right:-340px;width:320px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:500;transition:right 0.35s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow:hidden;}
+.sidebar.open{right:0;}
+.sidebar-header{padding:20px 20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);}
+.sidebar-close{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:18px;cursor:pointer;padding:4px 10px;transition:all 0.2s;}
+.sidebar-close:hover{border-color:var(--rose);color:var(--rose);}
+.sidebar-body{flex:1;overflow-y:auto;padding:12px 0;}
+.sidebar-body::-webkit-scrollbar{width:3px;}
+.sidebar-body::-webkit-scrollbar-thumb{background:var(--faint);}
+
+.sidebar-group{}
+.sidebar-group-header{padding:10px 20px 6px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;transition:color 0.2s;}
+.sidebar-group-header:hover{color:var(--gold-light);}
+.sidebar-group-header .sg-arrow{font-size:10px;transition:transform 0.25s;margin-left:auto;}
+.sidebar-group-header .sg-badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:600;}
+.sg-badge.basico{background:rgba(69,196,160,0.15);color:var(--teal);}
+.sg-badge.intermediario{background:rgba(200,164,74,0.15);color:var(--gold);}
+.sg-badge.avancado{background:rgba(224,112,112,0.15);color:var(--rose);}
+.sg-badge.especial{background:rgba(160,126,224,0.15);color:var(--violet);}
+
+.sidebar-group-items{overflow:hidden;max-height:0;transition:max-height 0.35s ease;}
+.sidebar-group-items.open{max-height:1000px;}
+.sidebar-item{display:flex;align-items:center;gap:12px;padding:9px 20px 9px 32px;cursor:pointer;transition:all 0.15s;font-size:13px;color:var(--muted);}
+.sidebar-item:hover{background:rgba(200,164,74,0.06);color:var(--text);}
+.sidebar-item .si-num{font-size:10px;color:var(--faint);width:20px;flex-shrink:0;font-family:'Cormorant Garamond',serif;}
+.sidebar-item .si-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.sidebar-item.basico .si-dot{background:var(--teal);}
+.sidebar-item.intermediario .si-dot{background:var(--gold);}
+.sidebar-item.avancado .si-dot{background:var(--rose);}
+.sidebar-item.especial .si-dot{background:var(--violet);}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 20px;}
+
+/* GRAMMAR FOOTER BOX */
+.gram-footer{background:rgba(200,164,74,0.04);border:1px solid rgba(200,164,74,0.15);border-radius:14px;padding:20px 24px;margin-top:40px;}
+.gram-footer-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.gram-footer-title::before{content:'📚';}
+.gram-terms{display:flex;flex-direction:column;gap:10px;}
+.gram-term{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:start;font-size:13px;}
+.gram-term-name{color:var(--text);font-weight:600;}
+.gram-term-def{color:var(--muted);line-height:1.6;}
+@media(max-width:560px){.gram-term{grid-template-columns:1fr;gap:4px;}}
+
+/* SCORE RESULT */
+.score-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;margin-top:20px;display:none;}
+.score-box.show{display:block;}
+.score-circle{width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;border:3px solid;}
+.score-circle.great{border-color:var(--teal);color:var(--teal);background:rgba(69,196,160,0.1);}
+.score-circle.good{border-color:var(--gold);color:var(--gold);background:rgba(200,164,74,0.1);}
+.score-circle.ok{border-color:var(--blue);color:var(--blue);background:rgba(101,144,232,0.1);}
+.score-circle.low{border-color:var(--rose);color:var(--rose);background:rgba(224,112,112,0.1);}
+.score-label{font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.score-msg{font-size:13px;color:var(--muted);line-height:1.6;}
+.score-detail{font-size:12px;color:var(--faint);margin-top:8px;}
+
+/* TREINO MODULO */
+.treino-mod-box{background:linear-gradient(135deg,rgba(200,164,74,0.06),rgba(69,196,160,0.04));border:1px solid rgba(200,164,74,0.2);border-radius:16px;padding:24px 28px;margin-top:40px;}
+.treino-mod-title{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.treino-mod-title::before{content:'🎯';}
+.treino-mod-list{display:flex;flex-direction:column;gap:10px;}
+.treino-mod-item{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.6;}
+.treino-mod-item::before{content:'→';color:var(--gold);flex-shrink:0;margin-top:1px;}
+.treino-mod-item strong{color:var(--text);}
+
+/* CRONOGRAMA */
+.crono-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.crono-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all 0.2s;}
+.crono-card:hover{transform:translateY(-2px);}
+.crono-top{padding:20px 22px 16px;}
+.crono-level{font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+.crono-card.basico .crono-top{background:rgba(69,196,160,0.06);}
+.crono-card.basico .crono-level{color:var(--teal);}
+.crono-card.basico .crono-horas{color:var(--teal);}
+.crono-card.intermediario .crono-top{background:rgba(200,164,74,0.06);}
+.crono-card.intermediario .crono-level{color:var(--gold);}
+.crono-card.intermediario .crono-horas{color:var(--gold);}
+.crono-card.avancado .crono-top{background:rgba(224,112,112,0.06);}
+.crono-card.avancado .crono-level{color:var(--rose);}
+.crono-card.avancado .crono-horas{color:var(--rose);}
+.crono-horas{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;line-height:1;}
+.crono-horas-label{font-size:12px;color:var(--muted);margin-top:2px;}
+.crono-body{padding:16px 22px 20px;border-top:1px solid var(--border);}
+.crono-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid rgba(40,40,47,0.5);}
+.crono-row:last-child{border-bottom:none;}
+.crono-row-label{color:var(--muted);}
+.crono-row-val{color:var(--text);font-weight:500;}
+.crono-promise{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.6;font-style:italic;}
+.crono-card.basico .crono-promise{background:rgba(69,196,160,0.06);color:var(--teal);}
+.crono-card.intermediario .crono-promise{background:rgba(200,164,74,0.06);color:var(--gold);}
+.crono-card.avancado .crono-promise{background:rgba(224,112,112,0.06);color:var(--rose);}
+
+/* ANTI COPY */
+.no-select{-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+
 
 /* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;}
@@ -730,42 +826,104 @@ function checkPassword(){
     עברית
     <small>Prof. Gabriel Barbosa</small>
   </div>
-  <ul class="nav-links" id="navLinks">
-    <li><a onclick="irPara('alfabeto')">Alfabeto</a></li>
-    <li><a onclick="irPara('frases')">Frases</a></li>
-    <li><a onclick="irPara('numeros')">Números</a></li>
-    <li><a onclick="irPara('artigos')">Artigos</a></li>
-    <li><a onclick="irPara('raiz')">Raiz</a></li>
-    <li><a onclick="irPara('afixos')">Afixos</a></li>
-    <li><a onclick="irPara('terminacoes')">Terminações</a></li>
-    <li><a onclick="irPara('exegese')">Exegese</a></li>
-    <li><a onclick="irPara('quiz')">Quiz</a></li>
-    <li><a onclick="irPara('treino')">Treino</a></li>
-    <li><a onclick="irPara('nikud')">Nikud</a></li>
-    <li><a onclick="irPara('pronomes')">Pronomes</a></li>
-    <li><a onclick="irPara('binyanim')">Binyanim</a></li>
-    <li><a onclick="irPara('sintaxe')">Sintaxe</a></li>
-    <li><a onclick="irPara('vav')">Vav Cons.</a></li>
-    <li><a onclick="irPara('cantilacao')">Cantilação</a></li>
-    <li><a onclick="irPara('parsing')">Parsing</a></li>
-    <li><a onclick="irPara('glossario')">Glossário</a></li>
-    <li><a onclick="irPara('timeline')">História</a></li>
-    <li><a onclick="irPara('comparador')">Comparador</a></li>
-    <li><a onclick="irPara('vfracos')">Verbos Fracos</a></li>
-    <li><a onclick="irPara('concordancia')">Concordância</a></li>
-    <li><a onclick="irPara('negacao')">Negação</a></li>
-    <li><a onclick="irPara('exegese2')">+ Exegese</a></li>
-    <li><a onclick="irPara('nomes')">Nomes Bíblicos</a></li>
-    <li><a onclick="irPara('manuscritos')">Manuscritos</a></li>
-    <li><a onclick="irPara('fraseadia')">Frase do Dia</a></li>
-    <li><a onclick="irPara('leitura')">Leitura</a></li>
-    <li><a onclick="irPara('mapa')">Mapa</a></li>
-    <li><a onclick="irPara('conquistas')">Conquistas</a></li>
-    <li><a onclick="irPara('oracoes')">Orações</a></li>
-    <li><a onclick="irPara('festas')">Festas Judaicas</a></li>
-    <li><a onclick="irPara('bencaos')">Bênçãos</a></li>
-  </ul>
+  <button class="nav-hamburger" onclick="toggleSidebar()">
+    ☰ <span>Módulos</span>
+  </button>
 </nav>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">עברית · Módulos</div>
+    <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+  </div>
+  <div class="sidebar-body">
+
+    <!-- BÁSICO -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header" onclick="toggleGroup(this)">
+        <span class="sg-badge basico">●</span> Nível Básico
+        <span class="sg-arrow">▼</span>
+      </div>
+      <div class="sidebar-group-items open">
+        <div class="sidebar-item basico" onclick="irParaFechar('alfabeto')"><span class="si-num">01</span><span class="si-dot"></span>Alfabeto Hebraico</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('frases')"><span class="si-num">02</span><span class="si-dot"></span>Frases Essenciais</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('numeros')"><span class="si-num">03</span><span class="si-dot"></span>Números de 1 a 10</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('artigos')"><span class="si-num">04</span><span class="si-dot"></span>Artigos Definidos e Indefinidos</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('raiz')"><span class="si-num">05</span><span class="si-dot"></span>Raiz Trilíteral</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('afixos')"><span class="si-num">06</span><span class="si-dot"></span>Prefixos e Sufixos</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('terminacoes')"><span class="si-num">07</span><span class="si-dot"></span>Terminações</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('exegese')"><span class="si-num">08</span><span class="si-dot"></span>Exegese — Gênesis 1:1</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('treino')"><span class="si-num">09</span><span class="si-dot"></span>Plano de Treino</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('glossario')"><span class="si-num">17</span><span class="si-dot"></span>Glossário 50 Palavras</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('timeline')"><span class="si-num">18</span><span class="si-dot"></span>História do Hebraico</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('nomes')"><span class="si-num">24</span><span class="si-dot"></span>Nomes Bíblicos</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('fraseadia')"><span class="si-num">26</span><span class="si-dot"></span>Versículo do Dia</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('leitura')"><span class="si-num">27</span><span class="si-dot"></span>Leitura Cronometrada</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('mapa')"><span class="si-num">28</span><span class="si-dot"></span>Mapa da Língua</div>
+        <div class="sidebar-item basico" onclick="irParaFechar('conquistas')"><span class="si-num">29</span><span class="si-dot"></span>Conquistas XP</div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- INTERMEDIÁRIO -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header" onclick="toggleGroup(this)">
+        <span class="sg-badge intermediario">●</span> Nível Intermediário
+        <span class="sg-arrow">▼</span>
+      </div>
+      <div class="sidebar-group-items open">
+        <div class="sidebar-item intermediario" onclick="irParaFechar('nikud')"><span class="si-num">10</span><span class="si-dot"></span>Nikud — Vogais</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('pronomes')"><span class="si-num">11</span><span class="si-dot"></span>Pronomes Pessoais</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('binyanim')"><span class="si-num">12</span><span class="si-dot"></span>Os 7 Binyanim</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('sintaxe')"><span class="si-num">13</span><span class="si-dot"></span>Sintaxe — Ordem VSO</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('vav')"><span class="si-num">14</span><span class="si-dot"></span>Vav Consecutivo</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('parsing')"><span class="si-num">16</span><span class="si-dot"></span>Parsing Verbal</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('concordancia')"><span class="si-num">21</span><span class="si-dot"></span>Concordância Nominal</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('negacao')"><span class="si-num">22</span><span class="si-dot"></span>Partículas de Negação</div>
+        <div class="sidebar-item intermediario" onclick="irParaFechar('bencaos')"><span class="si-num">32</span><span class="si-dot"></span>Bênçãos do Cotidiano</div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- AVANÇADO -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header" onclick="toggleGroup(this)">
+        <span class="sg-badge avancado">●</span> Nível Avançado
+        <span class="sg-arrow">▼</span>
+      </div>
+      <div class="sidebar-group-items open">
+        <div class="sidebar-item avancado" onclick="irParaFechar('cantilacao')"><span class="si-num">15</span><span class="si-dot"></span>Cantilação — Teamim</div>
+        <div class="sidebar-item avancado" onclick="irParaFechar('comparador')"><span class="si-num">19</span><span class="si-dot"></span>Comparador TM·LXX·PT</div>
+        <div class="sidebar-item avancado" onclick="irParaFechar('vfracos')"><span class="si-num">20</span><span class="si-dot"></span>Verbos Fracos</div>
+        <div class="sidebar-item avancado" onclick="irParaFechar('exegese2')"><span class="si-num">23</span><span class="si-dot"></span>Exegese — Shema, Gn 1:2, Sl 1</div>
+        <div class="sidebar-item avancado" onclick="irParaFechar('manuscritos')"><span class="si-num">25</span><span class="si-dot"></span>Manuscritos Bíblicos</div>
+        <div class="sidebar-item avancado" onclick="irParaFechar('oracoes')"><span class="si-num">30</span><span class="si-dot"></span>Orações Judaicas</div>
+        <div class="sidebar-item avancado" onclick="irParaFechar('festas')"><span class="si-num">31</span><span class="si-dot"></span>Festas Judaicas</div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- EXTRAS -->
+    <div class="sidebar-group">
+      <div class="sidebar-group-header" onclick="toggleGroup(this)">
+        <span class="sg-badge especial">●</span> Extras e Ferramentas
+        <span class="sg-arrow">▼</span>
+      </div>
+      <div class="sidebar-group-items open">
+        <div class="sidebar-item especial" onclick="irParaFechar('quiz')"><span class="si-num">✦</span><span class="si-dot"></span>Quiz do Alfabeto</div>
+        <div class="sidebar-item especial" onclick="irParaFechar('cronograma')"><span class="si-num">✦</span><span class="si-dot"></span>Cronograma de Estudos</div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -1781,8 +1939,26 @@ function checkPassword(){
   <div class="tooltip-pt" id="ttPt"></div>
 </div>
 
+<div class="divider"></div>
+
+<!-- ══ CRONOGRAMA ══ -->
+<section id="cronograma">
+  <div class="sec-label">Planejamento</div>
+  <h2 class="sec-title reveal">Cronograma de Estudos</h2>
+  <p class="sec-desc reveal">Quanto tempo você leva para dominar cada nível? Escolha sua dedicação diária e veja sua previsão personalizada.</p>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;" class="reveal" id="cronoOptions">
+    <button class="afixo-tab active" onclick="setCrono(15,this)">15 min/dia</button>
+    <button class="afixo-tab" onclick="setCrono(30,this)">30 min/dia</button>
+    <button class="afixo-tab" onclick="setCrono(60,this)">1 hora/dia</button>
+    <button class="afixo-tab" onclick="setCrono(120,this)">2 horas/dia</button>
+  </div>
+
+  <div class="crono-grid reveal" id="cronoGrid"></div>
+</section>
+
 <footer>
-  Aula elaborada por <strong>Prof. Gabriel Barbosa</strong> · עברית בִּיבְלִית · Hebraico Bíblico para iniciantes · 32 Módulos
+  Aula elaborada por <strong>Prof. Gabriel Barbosa</strong> · עברית בִּיבְלִית · Hebraico Bíblico · 32 Módulos
 </footer>
 
 <script>
@@ -2343,7 +2519,279 @@ if(cg){conquistasData.forEach(c=>{const d=document.createElement('div');d.classN
 renderXP();
 
 /* ══ CERTIFICADO ══ */
-setTimeout(()=>{document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));},600);
+setTimeout(()=>{document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));},800);
+
+/* ══ ANTI-COPY / ANTI-INSPECT ══ */
+document.addEventListener('contextmenu', e=>e.preventDefault());
+document.addEventListener('keydown', e=>{
+  if((e.ctrlKey||e.metaKey)&&(e.key==='u'||e.key==='s'||e.key==='p')) e.preventDefault();
+  if(e.key==='F12'||((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))) e.preventDefault();
+});
+document.querySelectorAll('*').forEach(el=>el.classList.add('no-select'));
+
+/* ══ SIDEBAR ══ */
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function toggleGroup(header){
+  const items = header.nextElementSibling;
+  const arrow = header.querySelector('.sg-arrow');
+  items.classList.toggle('open');
+  arrow.style.transform = items.classList.contains('open') ? 'rotate(0deg)' : 'rotate(-90deg)';
+}
+function irParaFechar(id){
+  toggleSidebar();
+  setTimeout(()=>{ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 300);
+}
+
+/* ══ SCORE SYSTEM ══ */
+let quizScore = {correct:0, total:0, started:false};
+
+// Override checkAnswer to track score
+const _origCheckAnswer = checkAnswer;
+let quizAnswers = {correct:0, wrong:0};
+function checkAnswer(btn, chosen, correct){
+  _origCheckAnswer(btn, chosen, correct);
+  if(chosen === correct) quizAnswers.correct++;
+  else quizAnswers.wrong++;
+  const total = quizAnswers.correct + quizAnswers.wrong;
+  if(total > 0) showQuizScore(quizAnswers.correct, total);
+}
+function showQuizScore(c, t){
+  let box = document.getElementById('quizScoreBox');
+  if(!box){
+    box = document.createElement('div');
+    box.id = 'quizScoreBox';
+    box.className = 'score-box show';
+    document.getElementById('quiz').appendChild(box);
+  }
+  const pct = Math.round(c/t*100);
+  let cls = pct>=90?'great':pct>=70?'good':pct>=50?'ok':'low';
+  let msg = pct>=90?'🏆 Excelente! Você domina o alfabeto!':pct>=70?'😊 Muito bom! Estude as letras que errou.':pct>=50?'📖 Continue praticando — você está no caminho certo!':'💪 Revise o alfabeto e tente novamente!';
+  let detail = pct===100?'Perfeito! Acertou todas as questões.':pct>=90?`Faltou pouco — errou apenas ${t-c} de ${t}.`:`Acertou ${c} de ${t} questões (${pct}%).`;
+  box.className = 'score-box show';
+  box.innerHTML = `<div class="score-circle ${cls}">${c}/${t}</div><div class="score-label">${msg}</div><div class="score-msg">${detail}</div>`;
+}
+
+// Parsing score
+let parsingAttempts = {correct:0, total:0};
+const _origCheckParsing = checkParsing;
+function checkParsing(){
+  const w = parsingWords[pIdx % parsingWords.length];
+  let c = 0, tot = Object.keys(w.answers).length;
+  pFields.forEach(f=>{ const s=document.getElementById('pf-'+f.id); if(s&&s.value===w.answers[f.id])c++; });
+  parsingAttempts.total += tot;
+  parsingAttempts.correct += c;
+  _origCheckParsing();
+  showParsingScore(parsingAttempts.correct, parsingAttempts.total);
+}
+function showParsingScore(c, t){
+  let box = document.getElementById('parsingScoreBox');
+  if(!box){ box=document.createElement('div'); box.id='parsingScoreBox'; box.className='score-box'; document.getElementById('parsing').appendChild(box); }
+  const pct = Math.round(c/t*100);
+  let cls = pct>=90?'great':pct>=70?'good':pct>=50?'ok':'low';
+  let msg = pct>=90?'🏆 Parsing excelente!':pct>=70?'😊 Bom trabalho!':pct>=50?'📖 Pratique mais os binyanim!':'💪 Revise as formas verbais!';
+  box.className = 'score-box show';
+  box.innerHTML = `<div class="score-circle ${cls}">${pct}%</div><div class="score-label">${msg}</div><div class="score-msg">Acertou ${c} de ${t} campos morfológicos.</div>`;
+}
+
+// Leitura score
+const _origLeituraStop = leituraStop;
+let leituraScores = [];
+function leituraStop(){
+  _origLeituraStop();
+  const elapsed = (Date.now()-lStart2)/1000;
+  leituraScores.push(elapsed);
+  showLeituraScore();
+}
+function showLeituraScore(){
+  let box = document.getElementById('leituraScoreBox');
+  if(!box){ box=document.createElement('div'); box.id='leituraScoreBox'; box.className='score-box'; document.getElementById('leitura').appendChild(box); }
+  const best = Math.min(...leituraScores);
+  const avg = leituraScores.reduce((a,b)=>a+b,0)/leituraScores.length;
+  let cls = best<5?'great':best<10?'good':best<20?'ok':'low';
+  let msg = best<5?'🏆 Leitura fluente! Você lê como um especialista!':best<10?'😊 Ótimo ritmo — continue praticando!':best<20?'📖 Progresso consistente!':'💪 Continue — a fluência vem com a prática!';
+  box.className = 'score-box show';
+  box.innerHTML = `<div class="score-circle ${cls}">${best.toFixed(1)}s</div><div class="score-label">${msg}</div><div class="score-msg">Melhor tempo: ${best.toFixed(1)}s · Média: ${avg.toFixed(1)}s · ${leituraScores.length} tentativa(s)</div>`;
+}
+
+/* ══ GRAMMAR FOOTER BOXES ══ */
+const gramTerms = {
+  'alfabeto': [
+    {name:'Consoante',def:'Letra que representa um som que precisa de ar bloqueado ou restringido na boca. No hebraico, TODAS as letras são consoantes — as vogais são marcadas separadamente.'},
+    {name:'Transliteração',def:'Representação dos sons de uma língua usando letras de outra. Ex: א = Alef. Ajuda a pronunciar sem conhecer o alfabeto original.'},
+  ],
+  'artigos': [
+    {name:'Artigo definido',def:'Palavra que indica que nos referimos a algo específico e conhecido. Em português: "o, a, os, as". Em hebraico: הַ (ha).'},
+    {name:'Artigo indefinido',def:'Palavra que indica algo não específico. Em português: "um, uma". O hebraico bíblico NÃO tem artigo indefinido — a ausência do הַ já indica indeterminação.'},
+    {name:'Substantivo',def:'Palavra que nomeia seres, objetos, lugares ou ideias. Ex: rei, casa, terra, Deus.'},
+  ],
+  'raiz': [
+    {name:'Raiz',def:'O conjunto mínimo de letras que carrega o significado central de uma palavra. Em hebraico são geralmente 3 consoantes (raiz trilíteral).'},
+    {name:'Derivação',def:'Processo de criar novas palavras a partir de uma raiz, adicionando prefixos, sufixos ou modificando as vogais.'},
+  ],
+  'afixos': [
+    {name:'Prefixo',def:'Elemento adicionado ANTES da palavra para modificar seu sentido. Ex: בְּ (em), לְ (para), וְ (e).'},
+    {name:'Sufixo',def:'Elemento adicionado DEPOIS da palavra. Em hebraico, os pronomes possessivos são sufixos. Ex: בֵּיתִי = minha casa (בַּיִת + ִי).'},
+    {name:'Pronome possessivo',def:'Indica posse ou pertencimento. Em português: meu, seu, nosso. Em hebraico são adicionados diretamente à palavra como sufixos.'},
+  ],
+  'terminacoes': [
+    {name:'Gênero',def:'Classificação gramatical em masculino ou feminino. Em hebraico, todos os substantivos têm gênero — até objetos inanimados.'},
+    {name:'Número',def:'Indica singular (um) ou plural (mais de um). O hebraico tem ainda o DUAL para coisas que naturalmente vêm em pares (mãos, olhos).'},
+    {name:'Substantivo',def:'Palavra que nomeia seres, coisas, lugares ou ideias. Ex: rei (מֶלֶךְ), terra (אָרֶץ).'},
+    {name:'Adjetivo',def:'Palavra que qualifica ou caracteriza um substantivo. Em hebraico, o adjetivo SEMPRE concorda em gênero e número com o substantivo que qualifica.'},
+    {name:'Verbo',def:'Palavra que expressa ação, estado ou processo. Em hebraico, o verbo já indica pessoa, número e gênero em suas terminações.'},
+  ],
+  'pronomes': [
+    {name:'Pronome pessoal',def:'Palavra que substitui o nome de uma pessoa. Em hebraico são frequentemente omitidos porque a forma verbal já indica a pessoa.'},
+    {name:'Pessoa gramatical',def:'1ª pessoa = quem fala (eu/nós). 2ª pessoa = com quem se fala (tu/vós). 3ª pessoa = de quem se fala (ele/ela/eles).'},
+    {name:'Ênfase',def:'Em hebraico, quando o pronome pessoal aparece junto ao verbo (que já indica a pessoa), é para dar ÊNFASE. Ex: "EU escrevi" (não outra pessoa).'},
+  ],
+  'binyanim': [
+    {name:'Voz ativa',def:'O sujeito PRATICA a ação. Ex: "Deus criou" — Deus é o agente da criação.'},
+    {name:'Voz passiva',def:'O sujeito RECEBE a ação. Ex: "foi criado" — alguém sofre a ação sem ser identificado como agente.'},
+    {name:'Voz reflexiva',def:'O sujeito pratica a ação sobre si mesmo. Ex: "santificar-se" = santificar a si próprio.'},
+    {name:'Intensivo',def:'Indica que a ação é realizada com força, repetição ou de forma completa. Ex: "falar" (Qal) vs "declarar intensamente" (Piel).'},
+    {name:'Causativo',def:'Fazer com que outro realize a ação. Ex: "fazer escrever" = causar que alguém escreva.'},
+  ],
+  'sintaxe': [
+    {name:'Sujeito',def:'Quem realiza ou sofre a ação do verbo. Ex: "DEUS criou" — Deus é o sujeito.'},
+    {name:'Verbo',def:'A ação ou estado da frase. Ex: "Deus CRIOU os céus" — criou é o verbo.'},
+    {name:'Objeto direto',def:'Quem recebe diretamente a ação do verbo, sem preposição. Ex: "Deus criou OS CÉUS" — os céus é o objeto direto.'},
+    {name:'Ordem sintática',def:'A sequência em que sujeito, verbo e objeto aparecem na frase. Hebraico bíblico: VSO. Português: SVO.'},
+  ],
+  'negacao': [
+    {name:'Negação absoluta',def:'Nega completamente a ação em qualquer circunstância. Usada em leis e proibições permanentes (לֹא).'},
+    {name:'Jussivo',def:'Modo verbal que expressa desejo, pedido ou ordem indireta. Usado com אַל para proibições momentâneas.'},
+    {name:'Existencial',def:'Relativo à existência ou não existência de algo. אֵין = "não há / não existe".'},
+  ],
+  'concordancia': [
+    {name:'Concordância',def:'Regra gramatical que exige que palavras relacionadas tenham o mesmo gênero e número. Ex: "os reis GRANDES" — tanto "reis" quanto "grandes" estão no masculino plural.'},
+    {name:'Gênero',def:'Classificação em masculino ou feminino. Em hebraico, todo substantivo tem gênero fixo, independente do sexo biológico.'},
+    {name:'Número',def:'Singular, plural ou dual. O hebraico tem uma forma especial para pares naturais chamada DUAL (ַיִם–).'},
+  ],
+};
+
+Object.keys(gramTerms).forEach(sectionId=>{
+  const section = document.getElementById(sectionId);
+  if(!section) return;
+  const terms = gramTerms[sectionId];
+  const box = document.createElement('div');
+  box.className = 'gram-footer reveal';
+  box.innerHTML = `<div class="gram-footer-title">Glossário Gramatical — termos deste módulo</div>
+    <div class="gram-terms">${terms.map(t=>`<div class="gram-term"><div class="gram-term-name">${t.name}</div><div class="gram-term-def">${t.def}</div></div>`).join('')}</div>`;
+  section.appendChild(box);
+});
+
+/* ══ TREINO POR MÓDULO ══ */
+const treinoMod = {
+  'alfabeto':[
+    '<strong>Escreva</strong> as 22 letras à mão 3 vezes cada, dizendo o nome em voz alta.',
+    '<strong>Flash cards:</strong> escreva a letra de um lado, nome e som do outro. Revise diariamente.',
+    '<strong>Quiz:</strong> use o exercício desta página até acertar 10 seguidas sem errar.',
+    '<strong>Identifique:</strong> abra uma Bíblia em hebraico e tente reconhecer as letras que você já sabe.',
+  ],
+  'frases':[
+    '<strong>Repita</strong> cada frase 5 vezes em voz alta usando o botão de pronúncia.',
+    '<strong>Memorize</strong> 2 frases por dia. Na semana você terá todas.',
+    '<strong>Desafio:</strong> cumprimente alguém com שָׁלוֹם e responda com תּוֹדָה hoje.',
+  ],
+  'artigos':[
+    '<strong>Pegue 10 palavras</strong> do glossário e adicione הַ na frente de cada uma.',
+    '<strong>Identifique</strong> em Gênesis 1 todas as palavras com o artigo הַ ou הָ.',
+    '<strong>Crie frases</strong>: "o rei" → "os reis" → "a rainha" usando as terminações corretas.',
+  ],
+  'raiz':[
+    '<strong>Escolha 3 raízes</strong> e liste todas as palavras derivadas que conseguir.',
+    '<strong>Análise reversa:</strong> pegue uma palavra e tente identificar sua raiz removendo prefixos e sufixos.',
+    '<strong>Compare:</strong> כ-ת-ב (escrever) e ד-ב-ר (falar) — liste 3 derivações de cada.',
+  ],
+  'binyanim':[
+    '<strong>Para cada binyan</strong>, conjugue a raiz כ-ת-ב no perfeito 3ª masc. sing.',
+    '<strong>Identifique</strong> o binyan de 5 verbos em Gênesis 1.',
+    '<strong>Traduza:</strong> qual é a diferença de sentido entre כָּתַב (Qal) e כִּתֵּב (Piel)?',
+  ],
+  'exegese':[
+    '<strong>Copie</strong> Gênesis 1:1 à mão e anote a função de cada palavra.',
+    '<strong>Faça o parsing</strong> de cada verbo do versículo.',
+    '<strong>Compare</strong> com duas traduções em português — que diferenças você nota?',
+  ],
+  'parsing':[
+    '<strong>Faça 5 parsings</strong> seguidos sem consultar o material.',
+    '<strong>Meta:</strong> acerte pelo menos 80% dos campos de cada forma verbal.',
+    '<strong>Desafio avançado:</strong> conjugue שָׁמַר (guardar) em todos os binyanim que você conhece.',
+  ],
+  'nikud':[
+    '<strong>Pronuncie</strong> cada vogal com uma consoante neutra (ב) 10 vezes.',
+    '<strong>Identifique</strong> os nikud em Gênesis 1:1 — quantos patakh, qametz e shva você encontra?',
+    '<strong>Escreva</strong> a palavra שָׁלוֹם e identifique cada vogal pelo nome.',
+  ],
+};
+
+Object.keys(treinoMod).forEach(sectionId=>{
+  const section = document.getElementById(sectionId);
+  if(!section) return;
+  const items = treinoMod[sectionId];
+  const box = document.createElement('div');
+  box.className = 'treino-mod-box reveal';
+  box.innerHTML = `<div class="treino-mod-title">Exercícios práticos deste módulo</div>
+    <div class="treino-mod-list">${items.map(i=>`<div class="treino-mod-item">${i}</div>`).join('')}</div>`;
+  section.appendChild(box);
+});
+
+/* ══ CRONOGRAMA ══ */
+let cronoMin = 15;
+const cronoData = [
+  {level:'basico', label:'Básico', modulos:'Módulos 1–9', topicos:['22 letras do alfabeto','Frases essenciais','Números','Artigos definidos','Raiz trilíteral','Prefixos e sufixos','Terminações','Exegese Gn 1:1','Plano de treino'],
+   mins:{15:240, 30:120, 60:60, 120:30},
+   promessa:'Ao final você lerá palavras hebraicas, reconhecerá letras bíblicas e entenderá estruturas básicas da frase.'},
+  {level:'intermediario', label:'Intermediário', modulos:'Módulos 10–16, 21–22', topicos:['Nikud — vogais massoréticas','Pronomes pessoais','7 Binyanim verbais','Sintaxe VSO','Vav Consecutivo','Parsing verbal','Concordância e negação'],
+   mins:{15:480, 30:240, 60:120, 120:60},
+   promessa:'Você fará parsing de formas verbais bíblicas e lerá narrativas do Antigo Testamento com auxílio do interlinear.'},
+  {level:'avancado', label:'Avançado', modulos:'Módulos 15, 19–20, 23, 25, 30–31', topicos:['Cantilação (Teamim)','Verbos fracos e irregulares','Comparador TM·LXX·PT','Exegese de Shema e Salmo 1','Manuscritos bíblicos','Orações judaicas','Festas e liturgia hebraica'],
+   mins:{15:720, 30:360, 60:180, 120:90},
+   promessa:'Você analisará textos bíblicos no original, comparará traduções com rigor acadêmico e entenderá a liturgia hebraica.'},
+];
+
+function setCrono(min, btn){
+  cronoMin = min;
+  document.querySelectorAll('#cronoOptions .afixo-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCrono();
+}
+
+function renderCrono(){
+  const g = document.getElementById('cronoGrid');
+  if(!g) return;
+  g.innerHTML = '';
+  cronoData.forEach(c=>{
+    const totalMin = c.mins[cronoMin];
+    const dias = Math.ceil(totalMin / cronoMin);
+    const semanas = Math.ceil(dias / 7);
+    const meses = (semanas / 4.3).toFixed(1);
+    const card = document.createElement('div');
+    card.className = `crono-card ${c.level} reveal`;
+    card.innerHTML = `
+      <div class="crono-top">
+        <div class="crono-level">${c.label}</div>
+        <div class="crono-horas">${semanas}sem</div>
+        <div class="crono-horas-label">com ${cronoMin} min/dia · ${dias} dias · ~${meses} meses</div>
+      </div>
+      <div class="crono-body">
+        <div class="crono-row"><span class="crono-row-label">Módulos</span><span class="crono-row-val">${c.modulos}</span></div>
+        <div class="crono-row"><span class="crono-row-label">Total estimado</span><span class="crono-row-val">${totalMin} min (${(totalMin/60).toFixed(0)}h)</span></div>
+        <div class="crono-row"><span class="crono-row-label">Tópicos</span><span class="crono-row-val">${c.topicos.length} conteúdos</span></div>
+        ${c.topicos.map(t=>`<div class="crono-row"><span class="crono-row-label" style="color:var(--faint);">·</span><span class="crono-row-val" style="font-size:11px;color:var(--muted);">${t}</span></div>`).join('')}
+        <div class="crono-promise">"${c.promessa}"</div>
+      </div>`;
+    g.appendChild(card);
+  });
+  setTimeout(()=>{ g.querySelectorAll('.reveal').forEach(el=>{ el.classList.add('visible'); }); }, 100);
+}
+renderCrono();
+
+setTimeout(()=>{ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el)); }, 1000);
 
 /* ══ ORAÇÕES DATA ══ */
 const oracoesData = [
