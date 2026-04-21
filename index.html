@@ -2062,10 +2062,20 @@ function buildQuiz(){
     b.onclick=()=>checkAnswer(b,o.name,cor.name);cnt.appendChild(b);
   });
 }
+let quizAnswers = {correct:0, wrong:0};
 function checkAnswer(btn,chosen,correct){
   document.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
-  if(chosen===correct){btn.classList.add('correct');document.getElementById('quizResult').innerHTML='<span style="color:var(--teal)">✓ Correto!</span>';}
-  else{btn.classList.add('wrong');document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});document.getElementById('quizResult').innerHTML=`<span style="color:var(--rose)">✗ Era: ${correct}</span>`;}
+  if(chosen===correct){
+    btn.classList.add('correct');
+    document.getElementById('quizResult').innerHTML='<span style="color:var(--teal)">✓ Correto!</span>';
+    quizAnswers.correct++;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});
+    document.getElementById('quizResult').innerHTML=`<span style="color:var(--rose)">✗ Era: ${correct}</span>`;
+    quizAnswers.wrong++;
+  }
+  showQuizScore(quizAnswers.correct, quizAnswers.correct + quizAnswers.wrong);
 }
 function nextQuestion(){qi++;buildQuiz();}
 buildQuiz();
@@ -2212,6 +2222,7 @@ function buildParsing(){
     fc.appendChild(div);
   });
 }
+let parsingAttempts = {correct:0, total:0};
 function checkParsing(){
   const w=parsingWords[pIdx%parsingWords.length];
   let correct=0,total=Object.keys(w.answers).length;
@@ -2223,6 +2234,9 @@ function checkParsing(){
   const res=document.getElementById('parsingResult');
   if(correct===total){res.innerHTML=`<span style="color:var(--teal)">✓ Perfeito! "${w.word}" = ${w.pt}</span>`;}
   else{res.innerHTML=`<span style="color:var(--rose)">${correct}/${total} corretos — "${w.word}" = ${w.pt}</span>`;}
+  parsingAttempts.correct += correct;
+  parsingAttempts.total += total;
+  showParsingScore(parsingAttempts.correct, parsingAttempts.total);
 }
 function nextParsing(){pIdx++;buildParsing();}
 buildParsing();
@@ -2481,7 +2495,28 @@ const leituraVersos=[
 let lIdx=0,lTimer=null,lStart2=0,lBest=null,lCount=0;
 function leituraNext(){lIdx=(lIdx+1)%leituraVersos.length;const v=leituraVersos[lIdx];document.getElementById('leituraRef').textContent=v.ref;document.getElementById('leituraVerse').textContent=v.text;document.getElementById('leituraTimer').textContent='0.0s';document.getElementById('leituraStatus').textContent='Pressione Iniciar quando estiver pronto';clearInterval(lTimer);document.getElementById('leituraBtnStart').style.display='';document.getElementById('leituraBtnStop').style.display='none';}
 function leituraStart(){lStart2=Date.now();document.getElementById('leituraBtnStart').style.display='none';document.getElementById('leituraBtnStop').style.display='';document.getElementById('leituraStatus').textContent='Lendo...';lTimer=setInterval(()=>{const el=((Date.now()-lStart2)/1000).toFixed(1);document.getElementById('leituraTimer').textContent=el+'s';},100);}
-function leituraStop(){clearInterval(lTimer);const elapsed=((Date.now()-lStart2)/1000);document.getElementById('leituraTimer').textContent=elapsed.toFixed(1)+'s';document.getElementById('leituraStatus').textContent='✓ Concluído!';document.getElementById('leituraBtnStop').style.display='none';document.getElementById('leituraBtnStart').style.display='';lCount++;document.getElementById('speedLast').textContent=elapsed.toFixed(1)+'s';document.getElementById('speedCount').textContent=lCount;if(!lBest||elapsed<lBest){lBest=elapsed;document.getElementById('speedBest').textContent=elapsed.toFixed(1)+'s';}}
+let leituraScores = [];
+function leituraStop(){
+  clearInterval(lTimer);
+  const elapsed=((Date.now()-lStart2)/1000);
+  document.getElementById('leituraTimer').textContent=elapsed.toFixed(1)+'s';
+  document.getElementById('leituraStatus').textContent='✓ Concluído!';
+  document.getElementById('leituraBtnStop').style.display='none';
+  document.getElementById('leituraBtnStart').style.display='';
+  lCount++;
+  document.getElementById('speedLast').textContent=elapsed.toFixed(1)+'s';
+  document.getElementById('speedCount').textContent=lCount;
+  if(!lBest||elapsed<lBest){lBest=elapsed;document.getElementById('speedBest').textContent=elapsed.toFixed(1)+'s';}
+  leituraScores.push(elapsed);
+  const best=Math.min(...leituraScores);
+  const avg=leituraScores.reduce((a,b)=>a+b,0)/leituraScores.length;
+  let box=document.getElementById('leituraScoreBox');
+  if(!box){box=document.createElement('div');box.id='leituraScoreBox';box.className='score-box';document.getElementById('leitura').appendChild(box);}
+  let cls=best<5?'great':best<10?'good':best<20?'ok':'low';
+  let msg=best<5?'🏆 Leitura fluente!':best<10?'😊 Ótimo ritmo!':best<20?'📖 Progresso consistente!':'💪 Continue praticando!';
+  box.className='score-box show';
+  box.innerHTML=`<div class="score-circle ${cls}">${best.toFixed(1)}s</div><div class="score-label">${msg}</div><div class="score-msg">Melhor: ${best.toFixed(1)}s · Média: ${avg.toFixed(1)}s · ${leituraScores.length} tentativa(s)</div>`;
+}
 
 /* ══ MAPA ══ */
 const mapaData=[
@@ -2546,18 +2581,6 @@ function irParaFechar(id){
 }
 
 /* ══ SCORE SYSTEM ══ */
-let quizScore = {correct:0, total:0, started:false};
-
-// Override checkAnswer to track score
-const _origCheckAnswer = checkAnswer;
-let quizAnswers = {correct:0, wrong:0};
-function checkAnswer(btn, chosen, correct){
-  _origCheckAnswer(btn, chosen, correct);
-  if(chosen === correct) quizAnswers.correct++;
-  else quizAnswers.wrong++;
-  const total = quizAnswers.correct + quizAnswers.wrong;
-  if(total > 0) showQuizScore(quizAnswers.correct, total);
-}
 function showQuizScore(c, t){
   let box = document.getElementById('quizScoreBox');
   if(!box){
@@ -2574,18 +2597,7 @@ function showQuizScore(c, t){
   box.innerHTML = `<div class="score-circle ${cls}">${c}/${t}</div><div class="score-label">${msg}</div><div class="score-msg">${detail}</div>`;
 }
 
-// Parsing score
-let parsingAttempts = {correct:0, total:0};
-const _origCheckParsing = checkParsing;
-function checkParsing(){
-  const w = parsingWords[pIdx % parsingWords.length];
-  let c = 0, tot = Object.keys(w.answers).length;
-  pFields.forEach(f=>{ const s=document.getElementById('pf-'+f.id); if(s&&s.value===w.answers[f.id])c++; });
-  parsingAttempts.total += tot;
-  parsingAttempts.correct += c;
-  _origCheckParsing();
-  showParsingScore(parsingAttempts.correct, parsingAttempts.total);
-}
+// Parsing score already integrated above
 function showParsingScore(c, t){
   let box = document.getElementById('parsingScoreBox');
   if(!box){ box=document.createElement('div'); box.id='parsingScoreBox'; box.className='score-box'; document.getElementById('parsing').appendChild(box); }
@@ -2594,26 +2606,6 @@ function showParsingScore(c, t){
   let msg = pct>=90?'🏆 Parsing excelente!':pct>=70?'😊 Bom trabalho!':pct>=50?'📖 Pratique mais os binyanim!':'💪 Revise as formas verbais!';
   box.className = 'score-box show';
   box.innerHTML = `<div class="score-circle ${cls}">${pct}%</div><div class="score-label">${msg}</div><div class="score-msg">Acertou ${c} de ${t} campos morfológicos.</div>`;
-}
-
-// Leitura score
-const _origLeituraStop = leituraStop;
-let leituraScores = [];
-function leituraStop(){
-  _origLeituraStop();
-  const elapsed = (Date.now()-lStart2)/1000;
-  leituraScores.push(elapsed);
-  showLeituraScore();
-}
-function showLeituraScore(){
-  let box = document.getElementById('leituraScoreBox');
-  if(!box){ box=document.createElement('div'); box.id='leituraScoreBox'; box.className='score-box'; document.getElementById('leitura').appendChild(box); }
-  const best = Math.min(...leituraScores);
-  const avg = leituraScores.reduce((a,b)=>a+b,0)/leituraScores.length;
-  let cls = best<5?'great':best<10?'good':best<20?'ok':'low';
-  let msg = best<5?'🏆 Leitura fluente! Você lê como um especialista!':best<10?'😊 Ótimo ritmo — continue praticando!':best<20?'📖 Progresso consistente!':'💪 Continue — a fluência vem com a prática!';
-  box.className = 'score-box show';
-  box.innerHTML = `<div class="score-circle ${cls}">${best.toFixed(1)}s</div><div class="score-label">${msg}</div><div class="score-msg">Melhor tempo: ${best.toFixed(1)}s · Média: ${avg.toFixed(1)}s · ${leituraScores.length} tentativa(s)</div>`;
 }
 
 /* ══ GRAMMAR FOOTER BOXES ══ */
