@@ -229,7 +229,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:0 20px;height:56px;b
 .crono-card.avancado .crono-promise{background:rgba(224,112,112,0.06);color:var(--rose);}
 
 /* ANTI COPY */
-.no-select{-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+.no-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+img{-webkit-user-drag:none;user-drag:none;pointer-events:none;}
+/* Bloquear impressão */
+@media print{
+  body{display:none!important;visibility:hidden!important;}
+  *{display:none!important;}
+}
 
 /* ── SIMULADO ── */
 .simulado-nivel-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
@@ -853,8 +859,7 @@ footer strong{color:var(--gold);}
     <button class="lock-btn" onclick="checkPassword()">Acessar o curso ✦</button>
     <div class="lock-error" id="lockError"></div>
     <div class="lock-prof">
-      <strong>Prof. Gabriel Barbosa</strong><br>
-      Professor · Evangelista · AD Madureira, Mauá
+      <strong>Prof. Gabriel Barbosa</strong>
     </div>
   </div>
 </div>
@@ -2710,11 +2715,52 @@ renderXP();
 setTimeout(()=>{document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));},800);
 
 /* ══ ANTI-COPY / ANTI-INSPECT ══ */
-document.addEventListener('contextmenu', e=>e.preventDefault());
+/* ══ PROTEÇÃO COMPLETA ══ */
+try{
+// 1. Bloquear clique direito
+document.addEventListener('contextmenu', e=>{ e.preventDefault(); return false; });
+
+// 2. Bloquear teclas de atalho
 document.addEventListener('keydown', e=>{
-  if((e.ctrlKey||e.metaKey)&&(e.key==='u'||e.key==='s'||e.key==='p')) e.preventDefault();
-  if(e.key==='F12'||((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))) e.preventDefault();
+  const ctrl = e.ctrlKey || e.metaKey;
+  if(ctrl && ['u','s','p','a'].includes(e.key.toLowerCase())){ e.preventDefault(); return false; }
+  if(e.key==='F12'){ e.preventDefault(); return false; }
+  if(ctrl && e.shiftKey && ['i','j','c','k'].includes(e.key.toLowerCase())){ e.preventDefault(); return false; }
+  if(e.key==='PrintScreen'){ e.preventDefault(); return false; }
 });
+
+// 3. Bloquear drag de imagens e textos
+document.addEventListener('dragstart', e=>e.preventDefault());
+document.addEventListener('selectstart', e=>e.preventDefault());
+document.addEventListener('copy', e=>{ e.preventDefault(); return false; });
+document.addEventListener('cut', e=>{ e.preventDefault(); return false; });
+}catch(e){}
+
+
+// 5. Bloquear iframe embedding
+try{ if(window.top !== window.self){ window.top.location = window.self.location; } }catch(e){}
+
+// 6. Marca d'água invisível no DOM
+(function marcaDagua(){
+  const wm = document.createElement('div');
+  wm.setAttribute('data-author','Prof. Gabriel Barbosa - AD Madureira Mauá - Hebraico Bíblico - Todos os direitos reservados');
+  wm.setAttribute('data-copyright', new Date().getFullYear());
+  wm.style.cssText='position:fixed;opacity:0;pointer-events:none;z-index:-1;font-size:0;';
+  wm.textContent='© Prof. Gabriel Barbosa - Hebraico Bíblico - Reprodução proibida sem autorização.';
+  document.body.appendChild(wm);
+})();
+
+// 7. Marca d'água visual flutuante discreta
+(function watermark(){
+  try{
+    const wm = document.createElement('div');
+    wm.style.cssText = 'position:fixed;bottom:12px;right:16px;z-index:9998;font-family:Georgia,serif;font-size:11px;color:rgba(200,164,74,0.25);pointer-events:none;letter-spacing:1px;user-select:none;';
+    wm.textContent = '\u00A9 Prof. Gabriel Barbosa';
+    document.body.appendChild(wm);
+  }catch(e){}
+})();
+
+// 8. No-select em todos os elementos
 document.querySelectorAll('*').forEach(el=>el.classList.add('no-select'));
 
 /* ══ SIDEBAR ══ */
