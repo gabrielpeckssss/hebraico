@@ -235,6 +235,119 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:0 20px;height:56px;b
 
 /* ANTI COPY */
 .no-select{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+
+/* ── SUGESTÃO FLUTUANTE ── */
+#sugBtn{
+  position:fixed;bottom:80px;right:20px;z-index:490;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  box-shadow:0 4px 20px rgba(200,164,74,0.4);
+  transition:all 0.2s;
+  animation:pulse-gold 2.5s infinite;
+}
+#sugBtn:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(200,164,74,0.5);}
+@keyframes pulse-gold{
+  0%,100%{box-shadow:0 4px 20px rgba(200,164,74,0.4);}
+  50%{box-shadow:0 4px 32px rgba(200,164,74,0.7);}
+}
+
+/* ── CALCULADORA FLUTUANTE ── */
+#calcBtn{
+  position:fixed;bottom:144px;right:20px;z-index:490;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#45c4a0,#2a9e80);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  box-shadow:0 4px 20px rgba(69,196,160,0.4);
+  transition:all 0.2s;
+}
+#calcBtn:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(69,196,160,0.6);}
+#calcOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:800;backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity 0.3s;}
+#calcOverlay.open{opacity:1;pointer-events:all;}
+#calcModal{
+  position:fixed;
+  top:50%;left:50%;transform:translate(-50%,-60%);
+  z-index:900;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:24px;
+  padding:32px 28px;
+  width:min(480px,92vw);
+  opacity:0;pointer-events:none;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+#calcModal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%);}
+.calc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.calc-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text);}
+.calc-close{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:16px;cursor:pointer;padding:4px 10px;transition:all 0.2s;}
+.calc-close:hover{border-color:var(--rose);color:var(--rose);}
+.calc-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+.calc-slider-wrap{margin-bottom:24px;}
+.calc-slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.calc-slider-name{font-size:13px;color:var(--muted);}
+.calc-slider-val{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--teal);font-weight:700;}
+.calc-slider{width:100%;height:6px;border-radius:99px;-webkit-appearance:none;appearance:none;background:var(--border);outline:none;cursor:pointer;}
+.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--teal);cursor:pointer;box-shadow:0 2px 8px rgba(69,196,160,0.4);}
+.calc-dias-wrap{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+.calc-dia-btn{flex:1;min-width:60px;padding:8px 4px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;text-align:center;}
+.calc-dia-btn.active{border-color:var(--teal);background:rgba(69,196,160,0.1);color:var(--teal);font-weight:600;}
+.calc-results{display:flex;flex-direction:column;gap:10px;}
+.calc-result-card{border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.calc-result-card.basico{background:rgba(69,196,160,0.08);border:1px solid rgba(69,196,160,0.25);}
+.calc-result-card.intermediario{background:rgba(200,164,74,0.08);border:1px solid rgba(200,164,74,0.25);}
+.calc-result-card.avancado{background:rgba(224,112,112,0.08);border:1px solid rgba(224,112,112,0.25);}
+.calc-result-left{}
+.calc-result-nivel{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
+.calc-result-card.basico .calc-result-nivel{color:var(--teal);}
+.calc-result-card.intermediario .calc-result-nivel{color:var(--gold);}
+.calc-result-card.avancado .calc-result-nivel{color:var(--rose);}
+.calc-result-topicos{font-size:12px;color:var(--muted);}
+.calc-result-right{text-align:right;flex-shrink:0;}
+.calc-result-tempo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;}
+.calc-result-card.basico .calc-result-tempo{color:var(--teal);}
+.calc-result-card.intermediario .calc-result-tempo{color:var(--gold);}
+.calc-result-card.avancado .calc-result-tempo{color:var(--rose);}
+.calc-result-detalhe{font-size:11px;color:var(--muted);margin-top:2px;}
+.calc-total{margin-top:14px;padding:14px 18px;background:var(--card2);border-radius:12px;display:flex;justify-content:space-between;align-items:center;}
+.calc-total-label{font-size:13px;color:var(--muted);}
+.calc-total-val{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);font-weight:700;}
+.calc-motiv{margin-top:14px;text-align:center;font-size:13px;color:var(--muted);font-style:italic;line-height:1.6;padding:10px 14px;background:rgba(200,164,74,0.04);border-radius:10px;border:1px solid rgba(200,164,74,0.1);}
+#sugOverlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:800;
+  backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+#sugOverlay.open{opacity:1;pointer-events:all;}
+#sugModal{
+  position:fixed;bottom:0;left:0;right:0;z-index:900;
+  background:var(--surface);border-top:1px solid var(--border);
+  border-radius:24px 24px 0 0;
+  padding:28px 24px 40px;
+  transform:translateY(100%);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  max-width:540px;margin:0 auto;
+}
+#sugModal.open{transform:translateY(0);}
+.sug-handle{width:40px;height:4px;background:var(--faint);border-radius:2px;margin:0 auto 20px;}
+.sug-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text);margin-bottom:4px;}
+.sug-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;}
+.sug-stars{display:flex;gap:8px;margin-bottom:16px;justify-content:center;}
+.sug-star{font-size:32px;cursor:pointer;transition:transform 0.15s;opacity:0.3;user-select:none;}
+.sug-star.active{opacity:1;transform:scale(1.15);}
+.sug-star:hover{transform:scale(1.2);}
+.sug-label{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.sug-modulo-select{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 14px;font-size:13px;font-family:'DM Sans',sans-serif;margin-bottom:12px;}
+.sug-modulo-select:focus{outline:none;border-color:var(--gold);}
+.sug-textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:14px;font-size:14px;font-family:'DM Sans',sans-serif;resize:none;height:100px;margin-bottom:14px;line-height:1.6;}
+.sug-textarea:focus{outline:none;border-color:var(--gold);}
+.sug-textarea::placeholder{color:var(--muted);}
+.sug-send{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#1a1000;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.sug-send:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,164,74,0.3);}
+.sug-send:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.sug-msg{text-align:center;font-size:14px;min-height:20px;margin-top:10px;}
+.sug-rating-label{font-size:13px;color:var(--gold);text-align:center;margin-bottom:12px;min-height:18px;font-style:italic;}
 img{-webkit-user-drag:none;user-drag:none;pointer-events:none;}
 /* Bloquear impressão */
 @media print{
@@ -848,6 +961,7 @@ footer strong{color:var(--gold);}
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBfZKyocxJlS9WhLLRS_7-eJ45pCa1kmH8",
@@ -860,6 +974,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Verificar se já está logado
 onAuthStateChanged(auth, (user) => {
@@ -945,6 +1060,43 @@ window.esqueceuSenha = async function(){
   }
 }
 
+// ENVIAR SUGESTÃO
+window.enviarSugestao = async function(){
+  const user = auth.currentUser;
+  const estrelas = parseInt(document.getElementById('sugStarsVal').value || '0');
+  const modulo = document.getElementById('sugModulo').value;
+  const texto = document.getElementById('sugTexto').value.trim();
+  const msg = document.getElementById('sugMsg');
+  const btn = document.getElementById('sugSendBtn');
+
+  if(estrelas === 0){ msg.style.color='var(--rose)'; msg.textContent='Por favor, selecione uma avaliação em estrelas.'; return; }
+  if(!texto){ msg.style.color='var(--rose)'; msg.textContent='Por favor, escreva sua sugestão.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Enviando...'; msg.textContent = '';
+  try {
+    await addDoc(collection(db, 'sugestoes'), {
+      email: user ? user.email : 'anônimo',
+      estrelas,
+      modulo,
+      texto,
+      timestamp: serverTimestamp(),
+      lida: false
+    });
+    msg.style.color = 'var(--teal)';
+    msg.textContent = '✅ Sugestão enviada! Obrigado pelo feedback.';
+    document.getElementById('sugTexto').value = '';
+    document.getElementById('sugStarsVal').value = '0';
+    document.querySelectorAll('.sug-star').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sugRatingLabel').textContent = '';
+    btn.textContent = 'Enviar sugestão ✦';
+    setTimeout(()=>{ fecharSugestao(); msg.textContent=''; btn.disabled=false; }, 2000);
+  } catch(e) {
+    msg.style.color = 'var(--rose)';
+    msg.textContent = '❌ Erro ao enviar. Tente novamente.';
+    btn.textContent = 'Enviar sugestão ✦'; btn.disabled = false;
+  }
+}
+
 // LOGOUT
 window.fazerLogout = async function(){
   await signOut(auth);
@@ -1010,6 +1162,116 @@ window.trocarAba = function(aba){
 <div id="logoutBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:500;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12px;color:var(--muted);cursor:pointer;align-items:center;gap:8px;" onclick="fazerLogout()">
   <span id="userEmailDisplay" style="color:var(--gold);font-size:11px;"></span>
   <span>Sair 🚪</span>
+</div>
+
+<!-- ══ BOTÃO FLUTUANTE SUGESTÃO ══ -->
+<button id="sugBtn" onclick="abrirSugestao()" title="Enviar sugestão">💬</button>
+
+<!-- ══ BOTÃO FLUTUANTE CALCULADORA ══ -->
+<button id="calcBtn" onclick="abrirCalc()" title="Calculadora de estudos">🧮</button>
+
+<!-- CALC OVERLAY -->
+<div id="calcOverlay" onclick="fecharCalc()"></div>
+
+<!-- CALC MODAL -->
+<div id="calcModal">
+  <div class="calc-header">
+    <div class="calc-title">🧮 Quanto tempo vou levar?</div>
+    <button class="calc-close" onclick="fecharCalc()">✕</button>
+  </div>
+  <div class="calc-sub">Ajuste os controles abaixo e veja sua previsão personalizada para completar cada nível do curso.</div>
+
+  <!-- SLIDER MINUTOS -->
+  <div class="calc-slider-wrap">
+    <div class="calc-slider-label">
+      <span class="calc-slider-name">⏱️ Minutos de estudo por dia</span>
+      <span class="calc-slider-val" id="calcMinVal">20 min</span>
+    </div>
+    <input type="range" class="calc-slider" id="calcMinSlider" min="5" max="120" step="5" value="20" oninput="atualizarCalc()">
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--faint);margin-top:4px;"><span>5 min</span><span>1 hora</span><span>2 horas</span></div>
+  </div>
+
+  <!-- BOTÕES DIAS DA SEMANA -->
+  <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">📅 Dias de estudo por semana</div>
+  <div class="calc-dias-wrap" id="calcDiasBtns">
+    <button class="calc-dia-btn" onclick="setDias(1,this)">1×</button>
+    <button class="calc-dia-btn" onclick="setDias(2,this)">2×</button>
+    <button class="calc-dia-btn" onclick="setDias(3,this)">3×</button>
+    <button class="calc-dia-btn active" onclick="setDias(5,this)">5×</button>
+    <button class="calc-dia-btn" onclick="setDias(6,this)">6×</button>
+    <button class="calc-dia-btn" onclick="setDias(7,this)">Todo dia</button>
+  </div>
+  <input type="hidden" id="calcDiasVal" value="5">
+
+  <!-- RESULTADOS -->
+  <div class="calc-results" id="calcResults"></div>
+  <div class="calc-total" id="calcTotal"></div>
+  <div class="calc-motiv" id="calcMotiv"></div>
+</div>
+
+<!-- OVERLAY -->
+<div id="sugOverlay" onclick="fecharSugestao()"></div>
+
+<!-- MODAL -->
+<div id="sugModal">
+  <div class="sug-handle"></div>
+  <div class="sug-title">💬 Deixe sua sugestão</div>
+  <div class="sug-sub">Seu feedback chega diretamente para o Prof. Gabriel — anônimo e privado.</div>
+
+  <div class="sug-label">Sua avaliação geral</div>
+  <div class="sug-stars" id="sugStars">
+    <span class="sug-star" onclick="setStar(1)">⭐</span>
+    <span class="sug-star" onclick="setStar(2)">⭐</span>
+    <span class="sug-star" onclick="setStar(3)">⭐</span>
+    <span class="sug-star" onclick="setStar(4)">⭐</span>
+    <span class="sug-star" onclick="setStar(5)">⭐</span>
+  </div>
+  <div class="sug-rating-label" id="sugRatingLabel"></div>
+  <input type="hidden" id="sugStarsVal" value="0">
+
+  <div class="sug-label">Módulo relacionado</div>
+  <select class="sug-modulo-select" id="sugModulo">
+    <option value="Geral">Geral — sobre o curso</option>
+    <option value="Módulo 1 — Alfabeto">Módulo 1 — Alfabeto</option>
+    <option value="Módulo 2 — Frases">Módulo 2 — Frases</option>
+    <option value="Módulo 3 — Números">Módulo 3 — Números</option>
+    <option value="Módulo 4 — Artigos">Módulo 4 — Artigos</option>
+    <option value="Módulo 5 — Raiz">Módulo 5 — Raiz</option>
+    <option value="Módulo 6 — Prefixos/Sufixos">Módulo 6 — Prefixos/Sufixos</option>
+    <option value="Módulo 7 — Terminações">Módulo 7 — Terminações</option>
+    <option value="Módulo 8 — Exegese Gn 1:1">Módulo 8 — Exegese Gn 1:1</option>
+    <option value="Módulo 9 — Treino">Módulo 9 — Treino</option>
+    <option value="Módulo 10 — Nikud">Módulo 10 — Nikud</option>
+    <option value="Módulo 11 — Pronomes">Módulo 11 — Pronomes</option>
+    <option value="Módulo 12 — Binyanim">Módulo 12 — Binyanim</option>
+    <option value="Módulo 13 — Sintaxe">Módulo 13 — Sintaxe</option>
+    <option value="Módulo 14 — Vav Consecutivo">Módulo 14 — Vav Consecutivo</option>
+    <option value="Módulo 15 — Cantilação">Módulo 15 — Cantilação</option>
+    <option value="Módulo 16 — Parsing">Módulo 16 — Parsing</option>
+    <option value="Módulo 17 — Glossário">Módulo 17 — Glossário</option>
+    <option value="Módulo 18 — História">Módulo 18 — História</option>
+    <option value="Módulo 19 — Comparador">Módulo 19 — Comparador</option>
+    <option value="Módulo 20 — Verbos Fracos">Módulo 20 — Verbos Fracos</option>
+    <option value="Módulo 21 — Concordância">Módulo 21 — Concordância</option>
+    <option value="Módulo 22 — Negação">Módulo 22 — Negação</option>
+    <option value="Módulo 23 — Exegese Extra">Módulo 23 — Exegese Extra</option>
+    <option value="Módulo 24 — Nomes Bíblicos">Módulo 24 — Nomes Bíblicos</option>
+    <option value="Módulo 25 — Manuscritos">Módulo 25 — Manuscritos</option>
+    <option value="Módulo 26 — Versículo do Dia">Módulo 26 — Versículo do Dia</option>
+    <option value="Módulo 27 — Leitura">Módulo 27 — Leitura Cronometrada</option>
+    <option value="Módulo 28 — Mapa">Módulo 28 — Mapa</option>
+    <option value="Módulo 29 — Conquistas">Módulo 29 — Conquistas</option>
+    <option value="Módulo 30 — Orações">Módulo 30 — Orações Judaicas</option>
+    <option value="Módulo 31 — Festas">Módulo 31 — Festas Judaicas</option>
+    <option value="Módulo 32 — Bênçãos">Módulo 32 — Bênçãos</option>
+    <option value="Simulado">Simulado por Nível</option>
+  </select>
+
+  <div class="sug-label">Sua sugestão ou comentário</div>
+  <textarea class="sug-textarea" id="sugTexto" placeholder="Escreva aqui sua sugestão, dúvida ou comentário sobre o curso..."></textarea>
+
+  <button class="sug-send" id="sugSendBtn" onclick="enviarSugestao()">Enviar sugestão ✦</button>
+  <div class="sug-msg" id="sugMsg"></div>
 </div>
 
 <nav>
@@ -2236,6 +2498,79 @@ window.trocarAba = function(aba){
 
 <script>
 function irPara(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+/* ── CALCULADORA ── */
+const calcNiveis = [
+  {key:'basico', label:'🟢 Básico', topicos:'Alfabeto, Frases, Gramática inicial, Raiz, Artigos, Prefixos', totalMin:240},
+  {key:'intermediario', label:'🟡 Intermediário', topicos:'Nikud, Pronomes, 7 Binyanim, Sintaxe, Vav Consecutivo, Parsing', totalMin:480},
+  {key:'avancado', label:'🔴 Avançado', topicos:'Cantilação, Verbos fracos, Exegese, Manuscritos, Liturgia', totalMin:720},
+];
+let calcDias = 5;
+
+function abrirCalc(){ document.getElementById('calcOverlay').classList.add('open'); document.getElementById('calcModal').classList.add('open'); atualizarCalc(); }
+function fecharCalc(){ document.getElementById('calcOverlay').classList.remove('open'); document.getElementById('calcModal').classList.remove('open'); }
+function setDias(n, btn){ calcDias=n; document.querySelectorAll('.calc-dia-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.getElementById('calcDiasVal').value=n; atualizarCalc(); }
+
+function atualizarCalc(){
+  const minDia = parseInt(document.getElementById('calcMinSlider').value);
+  document.getElementById('calcMinVal').textContent = minDia >= 60 ? (minDia/60).toFixed(1).replace('.0','')+'h' : minDia+' min';
+
+  const minSemana = minDia * calcDias;
+  const res = document.getElementById('calcResults');
+  res.innerHTML = '';
+  let totalDias = 0;
+
+  calcNiveis.forEach(n=>{
+    const diasNecessarios = Math.ceil(n.totalMin / minDia);
+    const semanasNecessarias = Math.ceil(diasNecessarios / calcDias);
+    const meses = (semanasNecessarias / 4.3);
+    totalDias += diasNecessarios;
+
+    let tempo, detalhe;
+    if(semanasNecessarias <= 1){ tempo='~1 sem'; detalhe=`${diasNecessarios} dias de estudo`; }
+    else if(semanasNecessarias < 4){ tempo=semanasNecessarias+'sem'; detalhe=`~${meses.toFixed(1)} mês`; }
+    else if(meses < 12){ tempo=meses.toFixed(1).replace('.0','')+'m'; detalhe=`${semanasNecessarias} semanas`; }
+    else{ tempo=(meses/12).toFixed(1)+'ano'; detalhe=`${meses.toFixed(0)} meses`; }
+
+    const card = document.createElement('div');
+    card.className = `calc-result-card ${n.key}`;
+    card.innerHTML = `<div class="calc-result-left"><div class="calc-result-nivel">${n.label}</div><div class="calc-result-topicos">${n.topicos}</div></div><div class="calc-result-right"><div class="calc-result-tempo">${tempo}</div><div class="calc-result-detalhe">${detalhe}</div></div>`;
+    res.appendChild(card);
+  });
+
+  const totalSemanas = Math.ceil(totalDias / calcDias);
+  const totalMeses = (totalSemanas / 4.3);
+  let totalTexto = totalMeses < 1 ? totalSemanas+' semanas' : totalMeses < 12 ? totalMeses.toFixed(1).replace('.0','')+' meses' : (totalMeses/12).toFixed(1)+' anos';
+  document.getElementById('calcTotal').innerHTML = `<span class="calc-total-label">⏳ Total do básico ao avançado</span><span class="calc-total-val">${totalTexto}</span>`;
+
+  const motivs = [
+    [5,'Ótimo ritmo! Com consistência você domina o hebraico bíblico em pouco tempo. ✨'],
+    [15,'Estudo leve mas consistente. O segredo é nunca pular um dia! 🌿'],
+    [30,'Excelente dedicação! Em poucos meses você já lê textos bíblicos no original. 📖'],
+    [60,'Dedicação de estudante! Em semanas você avança o que outros levam meses. 🎓'],
+    [120,'Imersão total! Você vai voar pelo curso. Lembre de descansar também! 🚀'],
+  ];
+  const motiv = [...motivs].reverse().find(m=>minDia>=m[0]);
+  document.getElementById('calcMotiv').textContent = motiv ? motiv[1] : '';
+}
+
+/* ── SUGESTÃO ── */
+const starLabels = ['','😕 Precisa melhorar','😐 Regular','😊 Bom','😄 Muito bom','🏆 Excelente!'];
+function setStar(n){
+  document.getElementById('sugStarsVal').value = n;
+  document.querySelectorAll('.sug-star').forEach((s,i)=>{
+    s.classList.toggle('active', i < n);
+  });
+  document.getElementById('sugRatingLabel').textContent = starLabels[n];
+}
+function abrirSugestao(){
+  document.getElementById('sugOverlay').classList.add('open');
+  document.getElementById('sugModal').classList.add('open');
+}
+function fecharSugestao(){
+  document.getElementById('sugOverlay').classList.remove('open');
+  document.getElementById('sugModal').classList.remove('open');
+}
 const alphabet=[
   {letter:'א',name:'Alef',sound:'Silencioso / A',number:'1'},
   {letter:'ב',name:'Bet',sound:'B / V',number:'2'},
